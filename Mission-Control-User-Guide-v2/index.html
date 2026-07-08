@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureBrain Mission Control — User Guide v2</title>
+<meta name="description" content="The complete guide to PureBrain Mission Control v2.4.2 (Guide v2) — every sidebar tab, the top bar, onboarding, workflows, and power-user patterns.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PureBrain Mission Control — User Guide v2 (Portal v2.4.2)
+   Inline CSS (graphico design system)
+   ============================================================================ */
+:root {
+  --bg:            #080a12;
+  --bg-2:          #0b0e18;
+  --sidebar-bg:    #0a0d16;
+  --topbar-bg:     #0a0d17;
+  --card-bg:       rgba(20, 26, 42, 0.55);
+  --card-bg-solid: #10141f;
+  --frame-bg:      #0d1019;
+  --border:        rgba(255,255,255,0.07);
+  --border-light:  rgba(255,255,255,0.12);
+  --border-blue:   rgba(42,147,193,0.28);
+  --blue:          #2a93c1;
+  --blue-light:    #5eb8d9;
+  --blue-bright:   #7ec8e3;
+  --blue-deep:     #1d6f95;
+  --orange:        #f1420b;
+  --orange-soft:   #f5836a;
+  --green:         #22c55e;
+  --green-soft:    #6ee7a0;
+  --amber:         #eab308;
+  --amber-soft:    #f5cf57;
+  --purple:        #8b7ff0;
+  --text:          #e8edf5;
+  --text-soft:     #c8d2e0;
+  --text-dim:      #9ca3af;
+  --text-faint:    #6b7280;
+  --heading:       #f3f7fc;
+  --radius-sm:     8px;
+  --radius:        12px;
+  --radius-lg:     16px;
+  --sidebar-w:     260px;
+  --toc-w:         200px;
+  --topbar-h:      58px;
+  --content-max:   780px;
+  --font-head: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  --ease:  cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.25);
+  --glow-blue:  0 0 24px rgba(42,147,193,0.18);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 24px); -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg); color: var(--text);
+  line-height: 1.65; min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(900px 500px at 78% -8%, rgba(42,147,193,0.10), transparent 60%),
+    radial-gradient(700px 500px at -5% 105%, rgba(42,147,193,0.06), transparent 55%);
+  background-attachment: fixed;
+}
+a { color: var(--blue-light); text-decoration: none; transition: color 0.15s var(--ease); }
+a:hover { color: var(--blue-bright); }
+::selection { background: rgba(42,147,193,0.35); color: #fff; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.09); border-radius: 6px; }
+*::-webkit-scrollbar-thumb:hover { background: rgba(42,147,193,0.4); }
+
+/* TOP BAR */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: rgba(10,13,23,0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 22px; z-index: 100; gap: 18px;
+}
+.brand-lockup { display: flex; align-items: center; gap: 10px; white-space: nowrap; text-decoration: none; }
+.brand-lockup .hex { width: 30px; height: 30px; flex-shrink: 0; display: block; color: var(--blue); }
+.wordmark { font-family: var(--font-head); font-weight: 700; font-size: 19px; letter-spacing: 0.5px; line-height: 1; }
+.wordmark .wm-blue   { color: var(--blue); }
+.wordmark .wm-orange { color: var(--orange); }
+.wordmark .wm-white  { color: #ffffff; }
+.topbar-divider { width: 1px; height: 24px; background: var(--border); }
+.topbar-guide-label { font-family: var(--font-head); font-size: 12px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.5px; }
+.topbar-search { flex: 1; max-width: 380px; position: relative; }
+.topbar-search input {
+  width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 14px 8px 36px;
+  color: var(--text); font-family: var(--font-body); font-size: 13.5px; outline: none;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.topbar-search input::placeholder { color: var(--text-faint); }
+.topbar-search input:focus { border-color: var(--blue); background: rgba(42,147,193,0.06); }
+.topbar-search .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; opacity: 0.5; pointer-events: none; color: var(--text-dim); }
+.topbar-right { display: flex; align-items: center; gap: 14px; margin-left: auto; }
+.topbar-tag { font-family: var(--font-head); font-size: 10.5px; font-weight: 600; color: var(--blue); background: rgba(42,147,193,0.10); border: 1px solid rgba(42,147,193,0.25); padding: 4px 11px; border-radius: 20px; letter-spacing: 1.2px; text-transform: uppercase; }
+.topbar-version { font-size: 11.5px; color: var(--text-dim); font-weight: 500; }
+.hamburger { display: none; cursor: pointer; background: none; border: none; color: var(--text); width: 24px; height: 24px; line-height: 0; }
+.hamburger svg { width: 24px; height: 24px; }
+
+/* LAYOUT */
+.layout { display: flex; margin-top: var(--topbar-h); min-height: calc(100vh - var(--topbar-h)); }
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w); min-width: var(--sidebar-w);
+  background: var(--sidebar-bg); border-right: 1px solid var(--border);
+  position: sticky; top: var(--topbar-h); height: calc(100vh - var(--topbar-h));
+  overflow-y: auto; padding: 14px 0 28px; flex-shrink: 0;
+}
+.nav-group { margin-bottom: 2px; }
+.nav-group-header {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 18px 9px 16px; cursor: pointer; user-select: none;
+  transition: background 0.15s var(--ease);
+}
+.nav-group-header:hover { background: rgba(255,255,255,0.025); }
+.nav-group-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.9; color: var(--blue); }
+.nav-group-title { font-family: var(--font-head); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.3px; color: var(--text-dim); flex: 1; }
+.nav-group-chevron { width: 12px; height: 12px; flex-shrink: 0; color: var(--text-faint); transition: transform 0.22s var(--ease); }
+.nav-group.collapsed .nav-group-chevron { transform: rotate(-90deg); }
+.nav-group-items { overflow: hidden; max-height: 1000px; transition: max-height 0.3s var(--ease), opacity 0.2s var(--ease); opacity: 1; }
+.nav-group.collapsed .nav-group-items { max-height: 0; opacity: 0; }
+.nav-item {
+  display: block; padding: 6px 16px 6px 43px;
+  font-size: 13px; color: var(--text-dim); cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: none;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--blue-light); border-left-color: var(--blue); background: linear-gradient(90deg, rgba(42,147,193,0.10), transparent); font-weight: 600; }
+.sidebar-progress { margin: 16px 16px 0; padding: 12px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.sidebar-progress-label { font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; display: flex; justify-content: space-between; margin-bottom: 7px; }
+.sidebar-progress-label b { color: var(--blue-light); font-weight: 700; }
+.progress-track { width: 100%; height: 5px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue-deep), var(--blue-light)); border-radius: 3px; transition: width 0.4s var(--ease); }
+.sidebar-backdrop { display: none; position: fixed; inset: var(--topbar-h) 0 0 0; background: rgba(0,0,0,0.55); z-index: 94; }
+.sidebar-backdrop.show { display: block; }
+
+/* CONTENT */
+.content { flex: 1; min-width: 0; padding: 40px 48px 96px; }
+.content-inner { max-width: var(--content-max); margin: 0 auto; }
+
+/* HERO */
+.guide-hero { margin: 0 0 48px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-blue); box-shadow: var(--glow-blue), 0 24px 60px rgba(0,0,0,0.45); height: 380px; position: relative; display: flex; align-items: center; justify-content: center; text-align: center;
+  background:
+    radial-gradient(1200px 600px at 82% -20%, rgba(241,66,11,0.16), transparent 55%),
+    radial-gradient(1000px 700px at 10% 120%, rgba(42,147,193,0.22), transparent 55%),
+    radial-gradient(700px 500px at 50% 50%, rgba(42,147,193,0.10), transparent 60%),
+    linear-gradient(160deg, #060810 0%, #0a1322 45%, #081019 100%);
+}
+.guide-hero::before { content:""; position:absolute; inset:0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.55), transparent),
+    radial-gradient(1.5px 1.5px at 70% 65%, rgba(255,255,255,0.40), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(126,200,227,0.55), transparent),
+    radial-gradient(1px 1px at 85% 22%, rgba(245,131,106,0.55), transparent),
+    radial-gradient(1px 1px at 55% 18%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1.5px 1.5px at 32% 58%, rgba(255,255,255,0.30), transparent);
+  opacity: 0.9; pointer-events:none;
+}
+.guide-hero::after { content:""; position:absolute; left:-30%; top:-60%; width:160%; height:220%;
+  background: conic-gradient(from 140deg at 70% 30%, transparent 0deg, rgba(42,147,193,0.10) 60deg, transparent 140deg);
+  pointer-events:none;
+}
+.guide-hero .hero-inner { position: relative; z-index: 2; padding: 0 28px; max-width: 680px; }
+.guide-hero .hero-hex { width: 56px; height: 56px; margin: 0 auto 18px; display: block; color: var(--blue-bright); filter: drop-shadow(0 0 18px rgba(42,147,193,0.6)); }
+.guide-hero .hero-kicker { font-family: var(--font-head); font-size: 12.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-light); margin-bottom: 14px; }
+.guide-hero h1.hero-title { font-family: var(--font-head); font-weight: 700; font-size: clamp(30px, 5vw, 50px); line-height: 1.04; letter-spacing: 0.5px; color: #fff; margin: 0 0 14px; }
+.guide-hero h1.hero-title .accent { color: var(--orange-soft); }
+.guide-hero .hero-sub { font-size: clamp(14px, 2vw, 17px); color: var(--text-soft); max-width: 540px; margin: 0 auto; line-height: 1.6; }
+.guide-hero .hero-version { display: inline-block; margin-top: 18px; font-family: var(--font-mono); font-size: 11.5px; color: var(--blue-bright); background: rgba(42,147,193,0.12); border: 1px solid var(--border-blue); border-radius: 999px; padding: 4px 14px; letter-spacing: 1px; }
+[data-theme="light"] .guide-hero { background:
+    radial-gradient(1200px 600px at 82% -20%, rgba(241,66,11,0.14), transparent 55%),
+    radial-gradient(1000px 700px at 10% 120%, rgba(42,147,193,0.20), transparent 55%),
+    linear-gradient(160deg, #0a1322 0%, #102236 50%, #0a1626 100%); }
+
+/* SECTIONS */
+.section { padding-top: 8px; margin-bottom: 64px; scroll-margin-top: calc(var(--topbar-h) + 20px); }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-head); font-size: 11px; font-weight: 600; color: var(--blue);
+  text-transform: uppercase; letter-spacing: 1.4px; margin-bottom: 14px;
+}
+.section-eyebrow .eyebrow-icon { width: 20px; height: 20px; }
+hr.divider { border: none; height: 1px; background: var(--border); margin: 40px 0; }
+
+/* TYPOGRAPHY */
+h1, .h1 { font-family: var(--font-head); font-weight: 700; font-size: 40px; line-height: 1.08; letter-spacing: -0.2px; color: var(--heading); margin-bottom: 16px; }
+h2, .h2 { font-family: var(--font-head); font-weight: 600; font-size: 26px; line-height: 1.2; color: var(--heading); margin: 40px 0 14px; padding-top: 6px; }
+h3, .h3 { font-family: var(--font-head); font-weight: 500; font-size: 19px; line-height: 1.3; color: var(--blue-bright); margin: 26px 0 10px; }
+h4, .h4 { font-family: var(--font-body); font-weight: 700; font-size: 15px; color: var(--text); letter-spacing: 0.2px; margin: 18px 0 6px; }
+.lead { font-size: 17px; line-height: 1.7; color: var(--text-soft); margin-bottom: 26px; font-weight: 400; }
+.section p { font-size: 15px; line-height: 1.75; margin-bottom: 15px; color: var(--text-soft); }
+.section ul, .section ol { margin: 0 0 16px 22px; }
+.section li { font-size: 15px; line-height: 1.7; margin-bottom: 7px; color: var(--text-soft); }
+.section ul li::marker { color: var(--blue); }
+.section ol li::marker { color: var(--blue); font-weight: 600; }
+.section strong { color: var(--text); font-weight: 700; }
+.section em { color: var(--blue-bright); font-style: normal; font-weight: 500; }
+code:not(pre code) { font-family: var(--font-mono); font-size: 0.86em; background: rgba(42,147,193,0.12); border: 1px solid rgba(42,147,193,0.2); color: var(--blue-bright); padding: 1px 6px; border-radius: 5px; }
+
+/* CALLOUTS */
+.callout { position: relative; display: flex; gap: 13px; border-radius: var(--radius); padding: 15px 17px; margin: 22px 0; font-size: 14px; line-height: 1.65; border: 1px solid var(--border); background: var(--card-bg); }
+.callout::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; }
+.callout-icon { width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { flex: 1; }
+.callout-title { font-family: var(--font-head); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+.callout-body p { font-size: 13.5px; margin: 0; color: var(--text-soft); }
+.callout-body p + p { margin-top: 7px; }
+.callout.note { background: rgba(42,147,193,0.07); border-color: rgba(42,147,193,0.22); }
+.callout.note::before { background: var(--blue); }
+.callout.note .callout-title { color: var(--blue-light); }
+.callout.note .callout-icon { color: var(--blue); }
+.callout.tip { background: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.20); }
+.callout.tip::before { background: var(--green); }
+.callout.tip .callout-title { color: var(--green-soft); }
+.callout.tip .callout-icon { color: var(--green); }
+.callout.warning { background: rgba(241,66,11,0.06); border-color: rgba(241,66,11,0.22); }
+.callout.warning::before { background: var(--orange); }
+.callout.warning .callout-title { color: var(--orange-soft); }
+.callout.warning .callout-icon { color: var(--orange); }
+.callout.pro-tip { background: rgba(234,179,8,0.06); border-color: rgba(234,179,8,0.20); }
+.callout.pro-tip::before { background: var(--amber); }
+.callout.pro-tip .callout-title { color: var(--amber-soft); }
+.callout.pro-tip .callout-icon { color: var(--amber); }
+
+/* STEPS */
+.steps { margin: 22px 0; position: relative; }
+.steps::before { content: ''; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: linear-gradient(var(--border-blue), transparent); }
+.step { display: flex; gap: 16px; margin-bottom: 20px; position: relative; }
+.step:last-child { margin-bottom: 0; }
+.step-num { width: 36px; height: 36px; flex-shrink: 0; z-index: 1; font-family: var(--font-head); font-weight: 600; font-size: 16px; background: rgba(42,147,193,0.14); border: 1px solid var(--border-blue); color: var(--blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px var(--bg); }
+.step-content { flex: 1; padding-top: 4px; }
+.step-title { font-family: var(--font-body); font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 3px; }
+.step-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+/* UI FRAME */
+.ui-frame { margin: 26px 0; border-radius: var(--radius-lg); background: var(--frame-bg); border: 1px solid var(--border-light); box-shadow: var(--shadow-card), 0 0 40px rgba(42,147,193,0.07); overflow: hidden; }
+.ui-frame-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,0.025); border-bottom: 1px solid var(--border); }
+.ui-frame-dots { display: flex; gap: 6px; }
+.ui-frame-dots span { width: 11px; height: 11px; border-radius: 50%; display: block; }
+.ui-frame-dots span:nth-child(1) { background: #ff5f57; }
+.ui-frame-dots span:nth-child(2) { background: #febc2e; }
+.ui-frame-dots span:nth-child(3) { background: #28c840; }
+.ui-frame-url { flex: 1; margin-left: 6px; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 6px; padding: 4px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ui-frame-url .lock { color: var(--green); margin-right: 6px; }
+.ui-frame-body { position: relative; line-height: 0; }
+.ui-frame-body img, .ui-frame-body svg { width: 100%; display: block; }
+.ui-frame-body.placeholder { line-height: 1.5; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 40px 20px; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0 12px, transparent 12px 24px), var(--frame-bg); color: var(--text-faint); }
+.ui-frame-body.placeholder svg { width: 40px; height: 40px; opacity: 0.5; color: var(--blue); }
+.ui-frame-body.placeholder .ph-text { font-size: 13px; color: var(--text-dim); }
+.ui-frame-body.placeholder .ph-hint { font-size: 11.5px; color: var(--text-faint); font-family: var(--font-mono); }
+.ui-frame-body.coming { line-height: 1.5; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 48px 24px; text-align: center;
+  background:
+    radial-gradient(600px 240px at 50% -10%, rgba(42,147,193,0.10), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.012) 0 14px, transparent 14px 28px),
+    var(--frame-bg); }
+.ui-frame-body.coming .coming-badge { font-family: var(--font-head); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue-bright); background: rgba(42,147,193,0.12); border: 1px solid var(--border-blue); border-radius: 999px; padding: 4px 14px; }
+.ui-frame-body.coming svg { width: 44px; height: 44px; opacity: 0.55; color: var(--blue); }
+.ui-frame-body.coming .coming-text { font-size: 13.5px; color: var(--text-dim); max-width: 360px; }
+.figcaption { font-size: 12px; color: var(--text-dim); padding: 9px 14px; background: rgba(255,255,255,0.018); border-top: 1px solid var(--border); display: flex; align-items: center; gap: 7px; }
+.fig-label { font-family: var(--font-head); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); background: rgba(42,147,193,0.12); padding: 2px 8px; border-radius: 4px; }
+
+/* KBD */
+kbd, .kbd { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--text); background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); border: 1px solid var(--border-light); border-bottom-width: 2px; border-radius: 6px; padding: 2px 8px; display: inline-block; line-height: 1.5; box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
+.kbd-combo { display: inline-flex; align-items: center; gap: 5px; }
+.kbd-combo .plus { color: var(--text-faint); font-size: 11px; }
+
+/* TABLES */
+.table-wrap { margin: 22px 0; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead th { font-family: var(--font-head); font-weight: 600; text-align: left; padding: 12px 16px; background: rgba(42,147,193,0.07); color: var(--blue-light); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid var(--border-blue); white-space: nowrap; }
+tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-soft); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:nth-child(even) td { background: rgba(255,255,255,0.012); }
+tbody tr:hover td { background: rgba(42,147,193,0.04); }
+
+/* CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 22px 0; }
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+.card:hover { transform: translateY(-2px); border-color: var(--border-blue); box-shadow: var(--glow-blue); }
+.card-icon { width: 30px; height: 30px; margin-bottom: 11px; color: var(--blue); }
+.card-title { font-family: var(--font-head); font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 5px; }
+.card-desc { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+
+/* CHECKLIST */
+.checklist { margin: 18px 0; }
+.checklist-item { display: flex; gap: 11px; padding: 9px 0; font-size: 14px; align-items: flex-start; color: var(--text-soft); border-bottom: 1px solid var(--border); }
+.checklist-item:last-child { border-bottom: none; }
+.check-box { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; border: 1.5px solid var(--border-blue); border-radius: 5px; display: flex; align-items: center; justify-content: color: var(--blue); background: rgba(42,147,193,0.06); }
+
+/* PROMPT CARD */
+.prompt-card { background: var(--card-bg-solid); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: var(--radius); padding: 15px 17px; margin: 18px 0; }
+.prompt-label { font-family: var(--font-head); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 8px; }
+.prompt-text { font-family: var(--font-mono); font-size: 13px; color: var(--text); line-height: 1.65; white-space: pre-wrap; }
+
+/* SUBTAB PILLS */
+.subtab-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.subtab-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-head); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--blue-light); background: rgba(42,147,193,0.10); border: 1px solid rgba(42,147,193,0.25); padding: 4px 12px; border-radius: 20px; }
+
+/* ICON BASE */
+.icon, .eyebrow-icon, .callout-icon, .card-icon, .nav-group-icon { color: var(--blue); }
+svg use { stroke: currentColor; }
+
+/* RESPONSIVE */
+@media (max-width: 1180px) { }
+@media (max-width: 920px) {
+  :root { --sidebar-w: 280px; }
+  .hamburger { display: inline-flex; align-items: center; }
+  .sidebar { position: fixed; top: var(--topbar-h); left: 0; z-index: 95; transform: translateX(-100%); transition: transform 0.28s var(--ease); box-shadow: 8px 0 32px rgba(0,0,0,0.5); }
+  .sidebar.open { transform: translateX(0); }
+  .content { padding: 28px 24px 80px; }
+}
+@media (max-width: 560px) {
+  h1, .h1 { font-size: 30px; }
+  h2, .h2 { font-size: 22px; }
+  .topbar-search, .topbar-version { display: none; }
+  .content { padding: 22px 16px 64px; }
+  .wordmark { font-size: 16px; }
+  .cards { grid-template-columns: 1fr; }
+  .guide-hero { height: 280px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; } }
+.text-blue { color: var(--blue-light); }
+.text-dim { color: var(--text-dim); }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+
+  /* === LIGHT THEME (data-theme="light") === */
+  [data-theme="light"] {
+    --bg:            #e8eef4;
+    --bg-2:          #edf2f7;
+    --sidebar-bg:    #e2e8f0;
+    --topbar-bg:     #edf2f7;
+    --card-bg:       rgba(237,242,247,0.85);
+    --card-bg-solid: #edf2f7;
+    --frame-bg:      #e8eef4;
+    --border:        rgba(42,80,120,0.12);
+    --border-light:  rgba(42,80,120,0.18);
+    --border-blue:   rgba(42,147,193,0.4);
+    --text:          #1a1a2e;
+    --text-soft:     #2d3748;
+    --text-dim:      #4a5568;
+    --text-faint:    #5a6b7d;
+    --heading:       #1a1a2e;
+    --shadow-card:   0 4px 16px rgba(30,60,90,0.08), 0 1px 3px rgba(42,147,193,0.06);
+    --glow-blue:     0 0 12px rgba(42,147,193,0.12);
+  }
+  [data-theme="light"] body {
+    background: var(--bg) !important;
+    background-image:
+      radial-gradient(900px 500px at 78% -8%, rgba(42,147,193,0.06), transparent 60%),
+      radial-gradient(700px 500px at -5% 105%, rgba(42,147,193,0.04), transparent 55%) !important;
+    color: var(--text);
+  }
+  [data-theme="light"] .topbar {
+    background: rgba(237,242,247,0.95) !important;
+    border-bottom-color: rgba(42,80,120,0.12);
+  }
+  [data-theme="light"] .sidebar {
+    background: var(--sidebar-bg) !important;
+    border-right-color: rgba(42,80,120,0.12);
+  }
+  [data-theme="light"] .wordmark .wm-white { color: #1a1a2e; }
+  [data-theme="light"] .topbar-guide-label { color: #5a6b7d; }
+  [data-theme="light"] .topbar-search input { background: rgba(255,255,255,0.8); color: #1a1a2e; border-color: rgba(42,80,120,0.15); }
+  [data-theme="light"] .topbar-search input::placeholder { color: #5a6b7d; }
+  [data-theme="light"] .topbar-tag { background: rgba(42,147,193,0.1); color: var(--blue); border-color: rgba(42,147,193,0.3); }
+  [data-theme="light"] .topbar-version { color: #4a5568; }
+  [data-theme="light"] .nav-group-header { color: #4a5568; }
+  [data-theme="light"] .nav-group-header:hover { background: rgba(42,147,193,0.08); color: #1a1a2e; }
+  [data-theme="light"] .nav-item { color: #4a5568; }
+  [data-theme="light"] .nav-item:hover { background: rgba(42,147,193,0.08); color: #1a1a2e; }
+  [data-theme="light"] .nav-item.active { background: rgba(42,147,193,0.12); color: #2a93c1; }
+  [data-theme="light"] .content-card,
+  [data-theme="light"] .card,
+  [data-theme="light"] .section-card { background: var(--card-bg); border-color: var(--border); }
+  [data-theme="light"] code,
+  [data-theme="light"] pre { background: rgba(42,80,120,0.06); color: #1a1a2e; border-color: rgba(42,80,120,0.12); }
+  [data-theme="light"] .hero-section { background: linear-gradient(180deg, #e2e8f0 0%, #e8eef4 100%); }
+  [data-theme="light"] *::-webkit-scrollbar-thumb { background: rgba(42,80,120,0.2); }
+  [data-theme="light"] .toc-link { color: #5a6b7d; }
+  [data-theme="light"] .toc-link:hover,
+  [data-theme="light"] .toc-link.active { color: #2a93c1; }
+  [data-theme="light"] .divider { border-color: rgba(42,80,120,0.12); }
+  [data-theme="light"] .btn-outline { border-color: rgba(42,80,120,0.25); color: #4a5568; }
+  [data-theme="light"] .btn-outline:hover { background: rgba(42,147,193,0.08); }
+  [data-theme="light"] a { color: var(--blue-deep, #1d6f95); }
+  [data-theme="light"] a:hover { color: var(--blue, #2a93c1); }
+
+</style>
+</head>
+<body>
+
+<!-- ===== INLINE SVG SPRITE ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><defs>
+<symbol id="ic-lets-talk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h11a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8l-4 3z"/><path d="M19 9l.7 1.6L21.4 11l-1.7.4L19 13l-.7-1.6L16.6 11l1.7-.4z"/></symbol>
+<symbol id="ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-4 4V6a2 2 0 0 1 2-2z"/><path d="M8 9h8M8 12h5"/></symbol>
+<symbol id="ic-teams" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19v-1a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1"/><path d="M15 14h1a4 4 0 0 1 4 4v1"/></symbol>
+<symbol id="ic-constitution" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 15h6M10 18h4"/></symbol>
+<symbol id="ic-tasks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9l1.5 1.5L12 8"/><path d="M8 15l1.5 1.5L12 14"/><path d="M15 9h2M15 15h2"/></symbol>
+<symbol id="ic-deployments" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 1 5 4 5 8l-2 4H9l-2-4c0-4 2-7 5-8z"/><circle cx="12" cy="9" r="1.6"/><path d="M9 15l-2 4 3-1M15 15l2 4-3-1"/></symbol>
+<symbol id="ic-todo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l1.5 1.5L8 5"/><path d="M4 12l1.5 1.5L8 10"/><path d="M4 18l1.5 1.5L8 16"/><path d="M11 6h9M11 12h9M11 18h6"/></symbol>
+<symbol id="ic-agents" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="12" cy="18" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M12 7.2v4.3M12 11.5h-6v4.3M12 11.5h6v4.3M12 11.5v4.3"/></symbol>
+<symbol id="ic-roster" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="M6.5 15a2.8 2.8 0 0 1 5 0"/><path d="M14 9h4M14 12.5h4M14 16h2.5"/></symbol>
+<symbol id="ic-hub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.6"/><circle cx="12" cy="20" r="1.6"/><circle cx="4.5" cy="8" r="1.6"/><circle cx="19.5" cy="8" r="1.6"/><circle cx="4.5" cy="16" r="1.6"/><circle cx="19.5" cy="16" r="1.6"/><path d="M12 9V5.6M12 15v3.4M9.6 10.6L5.7 8.6M14.4 10.6l3.9-2M9.6 13.4l-3.9 2M14.4 13.4l3.9 2"/></symbol>
+<symbol id="ic-skills" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5z"/><path d="M12 8l-2 3.5h2.4L11 15l4-4h-2.4z"/></symbol>
+<symbol id="ic-files" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="ic-payments" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 14h3"/></symbol>
+<symbol id="ic-clients" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17.5" cy="9.5" r="2.2"/><path d="M16 19a4 4 0 0 1 6-1.5"/></symbol>
+<symbol id="ic-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4L5.3 5.3"/></symbol>
+<symbol id="ic-refer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M4 13h16M12 9v11"/><path d="M12 9c-1.5-3-5-3-5-1s3.5 1 5 1zM12 9c1.5-3 5-3 5-1s-3.5 1-5 1z"/></symbol>
+<symbol id="ic-about" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="0.6" fill="currentColor"/></symbol>
+<symbol id="ic-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="0.7" fill="currentColor"/></symbol>
+<symbol id="ic-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+<symbol id="ic-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.7" fill="currentColor"/></symbol>
+<symbol id="ic-pro-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9.3l-4 4 1 6-5-2.8L7 19.3l1-6-4-4 5.5-.8z"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="ic-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="ic-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L7 20"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+</defs></svg>
+
+<!-- ===== TOP BAR ===== -->
+<header class="topbar">
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+    <svg><use href="#ic-menu"/></svg>
+  </button>
+  <a class="brand-lockup" href="#welcome">
+    <svg class="hex" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="15,2 26,8.5 26,21.5 15,28 4,21.5 4,8.5" stroke-linejoin="round"/><polygon points="15,7 22,11 22,19 15,23 8,19 8,11" opacity="0.5"/></svg>
+    <span class="wordmark"><span class="wm-blue">PUREBR</span><span class="wm-orange">AI</span><span class="wm-blue">N</span><span class="wm-white">.ai</span></span>
+  </a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-guide-label">User Guide</span>
+  <div class="topbar-search">
+    <svg class="search-icon"><use href="#ic-search"/></svg>
+    <input type="search" id="guideSearch" placeholder="Filter sections..." autocomplete="off">
+  </div>
+  <div class="topbar-right">
+    <button id="theme-toggle" class="icon-btn" onclick="window.toggleTheme&&toggleTheme()" title="Toggle light/dark theme" aria-label="Toggle theme" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text-dim);cursor:pointer;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <span class="topbar-tag">Mission Control · v2</span>
+    <span class="topbar-version">Portal v2.4.2</span>
+  </div>
+</header>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <nav class="sidebar" id="sidebar">
+
+    <!-- GETTING STARTED -->
+    <div class="nav-group" id="grp-start">
+      <div class="nav-group-header" onclick="toggleGroup('grp-start')">
+        <svg class="nav-group-icon"><use href="#ic-star"/></svg>
+        <span class="nav-group-title">Getting Started</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#welcome">Welcome</a>
+        <a class="nav-item" href="#quick-reference">Quick Reference</a>
+        <a class="nav-item" href="#glossary">Glossary</a>
+        <a class="nav-item" href="#first-login">First Login</a>
+        <a class="nav-item" href="#topbar">The Top Bar</a>
+        <a class="nav-item" href="#first-5-steps">First 5 Steps</a>
+        <a class="nav-item" href="#how-to-talk">How to Talk to Your AI</a>
+      </div>
+    </div>
+
+    <!-- LET'S TALK -->
+    <div class="nav-group" id="grp-letstalk">
+      <div class="nav-group-header" onclick="toggleGroup('grp-letstalk')">
+        <svg class="nav-group-icon"><use href="#ic-lets-talk"/></svg>
+        <span class="nav-group-title">Let's Talk</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#letstalk">Overview</a>
+        <a class="nav-item" href="#letstalk-voice">Voice Interface</a>
+        <a class="nav-item" href="#letstalk-tips">Tips &amp; Tricks</a>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="nav-group" id="grp-chat">
+      <div class="nav-group-header" onclick="toggleGroup('grp-chat')">
+        <svg class="nav-group-icon"><use href="#ic-chat"/></svg>
+        <span class="nav-group-title">Chat</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#chat">Overview</a>
+        <a class="nav-item" href="#chat-inbox">Inbox</a>
+        <a class="nav-item" href="#chat-patterns">Conversation Patterns</a>
+      </div>
+    </div>
+
+    <!-- TEAMS -->
+    <div class="nav-group" id="grp-teams">
+      <div class="nav-group-header" onclick="toggleGroup('grp-teams')">
+        <svg class="nav-group-icon"><use href="#ic-teams"/></svg>
+        <span class="nav-group-title">Terminal</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#teams">Overview</a>
+        <a class="nav-item" href="#teams-panes">Live Terminal Panes</a>
+      </div>
+    </div>
+
+    <!-- CONSTITUTION -->
+    <div class="nav-group" id="grp-constitution">
+      <div class="nav-group-header" onclick="toggleGroup('grp-constitution')">
+        <svg class="nav-group-icon"><use href="#ic-constitution"/></svg>
+        <span class="nav-group-title">Constitution</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#constitution">Overview</a>
+        <a class="nav-item" href="#constitution-global">Global AI Rules</a>
+        <a class="nav-item" href="#constitution-agent">Agent-Specific Rules</a>
+        <a class="nav-item" href="#constitution-governance">Governance</a>
+        <a class="nav-item" href="#constitution-dashboard">Dashboard</a>
+        <a class="nav-item" href="#constitution-actionlog">Action Log</a>
+        <a class="nav-item" href="#constitution-memory">Memory</a>
+        <a class="nav-item" href="#constitution-overrides">Overrides</a>
+      </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="nav-group" id="grp-tasks">
+      <div class="nav-group-header" onclick="toggleGroup('grp-tasks')">
+        <svg class="nav-group-icon"><use href="#ic-tasks"/></svg>
+        <span class="nav-group-title">Tasks</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#tasks">Overview</a>
+        <a class="nav-item" href="#tasks-workflow">Task Workflow</a>
+      </div>
+    </div>
+
+    <!-- DEPLOYMENTS -->
+    <div class="nav-group" id="grp-deployments">
+      <div class="nav-group-header" onclick="toggleGroup('grp-deployments')">
+        <svg class="nav-group-icon"><use href="#ic-deployments"/></svg>
+        <span class="nav-group-title">My Deployments</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#deployments">All Deployments</a>
+        <a class="nav-item" href="#deployments-mods">My Mods</a>
+      </div>
+    </div>
+
+    <!-- TO-DO -->
+    <div class="nav-group" id="grp-todo">
+      <div class="nav-group-header" onclick="toggleGroup('grp-todo')">
+        <svg class="nav-group-icon"><use href="#ic-todo"/></svg>
+        <span class="nav-group-title">To-Do</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#todo">Overview</a>
+        <a class="nav-item" href="#todo-workflow">Approval Workflow</a>
+      </div>
+    </div>
+
+    <!-- AGENTS -->
+    <div class="nav-group" id="grp-agents">
+      <div class="nav-group-header" onclick="toggleGroup('grp-agents')">
+        <svg class="nav-group-icon"><use href="#ic-agents"/></svg>
+        <span class="nav-group-title">My AI Fleet</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#agents">Overview</a>
+        <a class="nav-item" href="#agents-active">My Active Agents</a>
+        <a class="nav-item" href="#agents-boops">Active Boops</a>
+        <a class="nav-item" href="#agents-organogram">AI Organogram</a>
+      </div>
+    </div>
+
+    <!-- AGENT ROSTER -->
+    <div class="nav-group" id="grp-roster">
+      <div class="nav-group-header" onclick="toggleGroup('grp-roster')">
+        <svg class="nav-group-icon"><use href="#ic-roster"/></svg>
+        <span class="nav-group-title">Agent Roster</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#roster">Overview</a>
+        <a class="nav-item" href="#roster-filters">Filters &amp; Search</a>
+        <a class="nav-item" href="#roster-batch">Batch Actions</a>
+      </div>
+    </div>
+
+    <!-- HUB -->
+    <div class="nav-group" id="grp-hub">
+      <div class="nav-group-header" onclick="toggleGroup('grp-hub')">
+        <svg class="nav-group-icon"><use href="#ic-hub"/></svg>
+        <span class="nav-group-title">Agent Hub</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#hub">Overview</a>
+        <a class="nav-item" href="#hub-apis">Connected APIs</a>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="nav-group" id="grp-skills">
+      <div class="nav-group-header" onclick="toggleGroup('grp-skills')">
+        <svg class="nav-group-icon"><use href="#ic-skills"/></svg>
+        <span class="nav-group-title">Skills Shop</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#skills">Skills Shop</a>
+        <a class="nav-item" href="#skills-how">How Skills Work</a>
+      </div>
+    </div>
+
+    <!-- FILES -->
+    <div class="nav-group" id="grp-files">
+      <div class="nav-group-header" onclick="toggleGroup('grp-files')">
+        <svg class="nav-group-icon"><use href="#ic-files"/></svg>
+        <span class="nav-group-title">Files</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#files">Overview</a>
+        <a class="nav-item" href="#files-delivery">File Delivery</a>
+      </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div class="nav-group" id="grp-payments">
+      <div class="nav-group-header" onclick="toggleGroup('grp-payments')">
+        <svg class="nav-group-icon"><use href="#ic-payments"/></svg>
+        <span class="nav-group-title">Billing</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#payments">Overview</a>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="nav-group" id="grp-settings">
+      <div class="nav-group-header" onclick="toggleGroup('grp-settings')">
+        <svg class="nav-group-icon"><use href="#ic-settings"/></svg>
+        <span class="nav-group-title">Settings</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#settings">Profile</a>
+        <a class="nav-item" href="#settings-prefs">Preferences</a>
+      </div>
+    </div>
+
+    <!-- REFER & EARN -->
+    <div class="nav-group" id="grp-refer">
+      <div class="nav-group-header" onclick="toggleGroup('grp-refer')">
+        <svg class="nav-group-icon"><use href="#ic-refer"/></svg>
+        <span class="nav-group-title">Refer &amp; Earn</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#refer">Overview</a>
+        <a class="nav-item" href="#refer-rewards">Reward Tiers</a>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="nav-group" id="grp-about">
+      <div class="nav-group-header" onclick="toggleGroup('grp-about')">
+        <svg class="nav-group-icon"><use href="#ic-about"/></svg>
+        <span class="nav-group-title">Knowledge Hub</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#about">Knowledge Hub</a>
+      </div>
+    </div>
+
+    <!-- MODS -->
+    <div class="nav-group" id="grp-mods">
+      <div class="nav-group-header" onclick="toggleGroup('grp-mods')">
+        <svg class="nav-group-icon"><use href="#ic-hub"/></svg>
+        <span class="nav-group-title">Mods</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#system-status">System Status</a>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="sidebar-progress-label"><span>Guide Progress</span><b id="progressPct">0%</b></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+  </nav>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="content" id="mainContent">
+    <div class="content-inner">
+
+      <!-- HERO -->
+      <div class="guide-hero" role="img" aria-label="PureBrain Mission Control User Guide">
+        <div class="hero-inner">
+          <svg class="hero-hex" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4"><polygon points="15,2 26,8.5 26,21.5 15,28 4,21.5 4,8.5" stroke-linejoin="round"/><polygon points="15,7 22,11 22,19 15,23 8,19 8,11" opacity="0.5"/></svg>
+          <div class="hero-kicker">PureBrain Mission Control</div>
+          <h1 class="hero-title">The Complete <span class="accent">User Guide</span></h1>
+          <p class="hero-sub">Everything you need to orchestrate your AI agents, manage tasks, and run your command center — written for humans, not engineers.</p>
+          <span class="hero-version">USER GUIDE V2 · PORTAL V2.4.2</span>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           GETTING STARTED
+           ========================================================= -->
+      <section id="welcome" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>Welcome to Mission Control</h1>
+        <p class="lead">Mission Control v2.4.2 is your command center for orchestrating AI agents, managing tasks, and accelerating everything you build — from a single chat with your AI to coordinating entire agent swarms. This is <strong>User Guide v2</strong>, refreshed for the current portal.</p>
+        <p>This guide walks you through every panel, control, and workflow in the portal. Whether you're logging in for the first time or exploring the deeper controls, you'll find a dedicated section for the top bar and for each tab in the left sidebar — grouped into <em>Main</em>, <em>Work</em>, <em>Agents</em>, <em>Workspace</em>, <em>Knowledge</em>, and <em>Mods</em>.</p>
+
+        <div class="cards">
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-lets-talk"/></svg>
+            <div class="card-title">Talk to Your AI</div>
+            <div class="card-desc">Voice-first interface for natural, conversational requests. No typing needed.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-chat"/></svg>
+            <div class="card-title">Chat</div>
+            <div class="card-desc">Text-based AI conversation with inbox, CC, and session history.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-teams"/></svg>
+            <div class="card-title">Agent Teams</div>
+            <div class="card-desc">Launch multi-agent swarms and watch them work in live terminal panes.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-constitution"/></svg>
+            <div class="card-title">Constitution</div>
+            <div class="card-desc">Define the rules, values, and governance your AI civilization lives by.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-hub"/></svg>
+            <div class="card-title">Hub</div>
+            <div class="card-desc">Live system health, resource gauges, and all your connected API integrations.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-skills"/></svg>
+            <div class="card-title">Skills Shop</div>
+            <div class="card-desc">Browse and activate reusable capabilities that make your agents smarter.</div>
+          </div>
+        </div>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">This guide covers v2.4.2 (Guide v2)</div>
+            <p>If you used an earlier version of the portal, most tabs work the same — but the sidebar is now organized into labelled groups, the top bar has grown (Dock Chat, a bigger context meter, a version/update panel, a bug-report button, and a third "Rose" theme), and a Mods area can host add-on panels such as System Status.</p>
+          </div>
+        </div>
+
+        <h2>What's New in v2.4.2</h2>
+        <p>The biggest changes since the previous guide (v2.2.92) are in the shell — the sidebar, the top bar, and the new Mods area — rather than in the individual tabs.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>What Changed</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Sidebar groups</strong></td><td>Tabs are now grouped and collapsible: Main, Work, Agents, Workspace, Knowledge, and Mods. Group headers toggle open/closed.</td></tr>
+              <tr><td><strong>Top bar</strong></td><td>New Dock Chat button, a click-to-expand context (CTX) meter now scaled to the 1M-token window, an Online pill, a version/update panel with "Check for Updates", and a bug-report button.</td></tr>
+              <tr><td><strong>Themes</strong></td><td>Three quick theme buttons in the top bar: Dark, Light, and Rose. (This guide itself ships Dark + Light.)</td></tr>
+              <tr><td><strong>Restart</strong></td><td>A one-click Restart in the top bar starts a fresh AI session (with a confirm prompt).</td></tr>
+              <tr><td><strong>Bookmarks bar</strong></td><td>A thin bar under the top bar lets you pin your own shortcuts (internal tabs or external URLs) via the "+" button.</td></tr>
+              <tr><td><strong>Mods (System Status)</strong></td><td>A new Mods group can host add-on panels injected into the portal. System Status is the built-in example — portal health, connected services, and context usage.</td></tr>
+              <tr><td><strong>Billing</strong></td><td>The Billing/Payments tab is hidden by default on most accounts (it only appears when billing is enabled for you).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Your sidebar may differ slightly</div>
+            <p>PureBrain portals are per-customer. Some items (Billing, and Mods panels like System Status or a "Poke" button) are optional and only appear when they've been enabled or installed for your account. If you don't see a tab described here, it simply isn't turned on for you.</p>
+          </div>
+        </div>
+
+        <h2 id="quick-reference">Quick Reference: Every Tab</h2>
+        <p>A one-line summary of every sidebar tab, grouped the way the portal groups them. Each has its own detailed section later in this guide — use the sidebar to jump straight to any of them. The <strong>Top Bar</strong> is documented separately in <a href="#topbar">The Top Bar &amp; Global Controls</a>.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Group</th><th>Tab</th><th>One Line</th></tr></thead>
+            <tbody>
+              <tr><td rowspan="4"><strong>Main</strong></td><td><strong>Let's Talk</strong></td><td>Voice-first AI interface with microphone, visualizer, and ElevenLabs voice</td></tr>
+              <tr><td><strong>Chat</strong></td><td>Text conversation + Inbox + CC — your primary AI dialogue surface</td></tr>
+              <tr><td><strong>Terminal</strong></td><td>Live terminal panes for agent / Claude Code sessions — parallel work at scale</td></tr>
+              <tr><td><strong>Constitution</strong></td><td>7-subtab governance: rules, compliance, memory, action log, overrides</td></tr>
+              <tr><td rowspan="3"><strong>Work</strong></td><td><strong>Tasks</strong></td><td>Structured work queue with Active / Pending / Completed / Failed tracking</td></tr>
+              <tr><td><strong>My Deployments</strong></td><td>All live deployments + My Mods — manage what your AI has shipped</td></tr>
+              <tr><td><strong>To Do</strong></td><td>Human-in-the-loop approval queue — items your AI needs your sign-off on</td></tr>
+              <tr><td rowspan="4"><strong>Agents</strong></td><td><strong>My AI Fleet</strong></td><td>Active agents + BOOPs + AI Organogram — who's running and what they do</td></tr>
+              <tr><td><strong>Agent Roster</strong></td><td>Full agent directory with filters, batch actions, and agent detail cards</td></tr>
+              <tr><td><strong>Agent Hub</strong></td><td>System health gauges + live agents + action buttons + Connected APIs</td></tr>
+              <tr><td><strong>Skills Shop</strong></td><td>Browse and activate reusable agent capabilities</td></tr>
+              <tr><td rowspan="3"><strong>Workspace</strong></td><td><strong>Files</strong></td><td>File browser with tree nav, grid/list views, storage bar, and delivery system</td></tr>
+              <tr><td><strong>Settings</strong></td><td>Profile + Preferences — identity, API keys, notification &amp; connection config</td></tr>
+              <tr><td><strong>Billing</strong> <span style="color:var(--text-faint)">(hidden)</span></td><td>Subscription, billing history, plan upgrades — only shown when billing is enabled</td></tr>
+              <tr><td><strong>Earn</strong></td><td><strong>Refer &amp; Earn</strong></td><td>Referral link, live earnings stats, reward tiers, PayPal payout setup</td></tr>
+              <tr><td><strong>Knowledge</strong></td><td><strong>Knowledge Hub</strong></td><td>PureBrain Book, Brainiac Training, AI Partnership Framework, Ingest Training</td></tr>
+              <tr><td><strong>Mods</strong></td><td><strong>System Status</strong> <span style="color:var(--text-faint)">(add-on)</span></td><td>Portal health, connected services, and context usage — an installable Mods panel</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="glossary">Glossary</h2>
+        <p>A few PureBrain terms you'll meet throughout the portal and this guide:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Term</th><th>What it means</th></tr></thead>
+            <tbody>
+              <tr><td><strong>BOOP</strong></td><td>A recurring job your AI runs on a schedule (like a timer or alarm) — for example, a daily summary or an hourly check. You'll see your scheduled BOOPs in My AI Fleet &rarr; Active Boops.</td></tr>
+              <tr><td><strong>CC (Claude Code)</strong></td><td>Your AI writing and running code on a server. The CC subtab in Chat lets you watch that work live without leaving the portal.</td></tr>
+              <tr><td><strong>Conductor</strong></td><td>The lead AI that coordinates the others — it decides which specialist agent handles each piece of work, like a project manager for your AI team.</td></tr>
+              <tr><td><strong>Context window</strong></td><td>How much your AI can "hold in mind" at once during a session. When it fills up, older details may be summarized to make room — similar to short-term memory.</td></tr>
+              <tr><td><strong>Organogram</strong></td><td>An org chart for your AI — a visual map showing the conductor at the top and the specialist agents reporting under it.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="first-login" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>First Login</h1>
+        <p class="lead">Your first login sets up your AI partnership. Here's exactly what to expect and how to get oriented quickly.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Go to app.purebrain.ai</div>
+              <div class="step-desc">Open the portal in a modern browser (Chrome, Edge, or Firefox recommended). The portal supports both light and dark themes — switch anytime from the top bar — and is optimized for desktop use.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Enter your credentials</div>
+              <div class="step-desc">Use the email and password from your PureBrain invitation. If you signed up via the website, use those same credentials. Forgot your password? Use the reset link on the login screen.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">You land on Chat by default</div>
+              <div class="step-desc">The portal opens on the <em>Chat</em> tab — your primary AI conversation surface. The left sidebar shows every tab, grouped into Main / Work / Agents / Workspace / Knowledge / Mods. The top bar shows the portal version (v2.4.2) plus Dock Chat, the context meter, Online status, and Restart — see <a href="#topbar">The Top Bar &amp; Global Controls</a>.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Check the Hub for system status</div>
+              <div class="step-desc">Click <em>Hub</em> in the left sidebar. You'll see your civilization's name, uptime, and resource gauges (Context, Memory, CPU, Disk). Green = healthy. If anything shows red, check Connected APIs.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <div class="step-title">Set up your profile</div>
+              <div class="step-desc">Go to <em>Settings → Profile</em> to review your name, email, and civilization details. Head to <em>Settings → Preferences</em> to configure notification and display preferences.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Bookmark the Hub</div>
+            <p>The Hub tab is your system health dashboard. Bookmark it or keep it open in a second window during your first sessions — it shows real-time agent activity and resource usage.</p>
+          </div>
+        </div>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/tab-chat.png" alt="PureBrain Mission Control — 01 first login" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The portal landing on Chat tab after first login.</figcaption>
+        </figure>
+      </section>
+      <hr class="divider">
+      <section id="topbar" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>The Top Bar &amp; Global Controls</h1>
+        <p class="lead">The bar across the very top of Mission Control stays visible on every tab. It's your always-on cockpit — brand, status, session controls, and appearance — so it's worth a minute to learn what each control does.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Top bar</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-02-top-bar.png" alt="PureBrain Mission Control — 02 top bar" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The persistent top bar with brand, context meter, status, and session controls.</figcaption>
+        </figure>
+
+        <h2>Left side: identity</h2>
+        <p>The PureBrain logo and wordmark sit on the left, followed by <strong>Mission Control</strong> and the current portal version (<code>v2.4.2</code>). Clicking around never hides this — it's your anchor.</p>
+
+        <h2 id="topbar-controls">Right side: controls</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Control</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Dock Chat</strong></td><td>Docks the chat composer to the bottom of the screen so you can chat while viewing any other tab. Toggle with the button or <span class="kbd-combo"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd>D</kbd></span>.</td></tr>
+              <tr><td><strong>CTX meter</strong></td><td>A live gauge of your AI's context-window usage (e.g. <code>146k / 1M</code> tokens). Click it to open a detail popup. As it fills, older detail gets summarized; a Restart gives a fresh, full-capacity context.</td></tr>
+              <tr><td><strong>Online pill</strong></td><td>Green dot + "Online" means your AI session is live and reachable. If it turns amber/red, check the Hub or Restart.</td></tr>
+              <tr><td><strong>Theme buttons</strong></td><td>Three one-click themes: <strong>Dark</strong> (moon), <strong>Light</strong> (sun), and <strong>Rose</strong> (heart). Your choice is remembered.</td></tr>
+              <tr><td><strong>Bug report</strong></td><td>The bug icon opens a quick way to report a problem with the portal.</td></tr>
+              <tr><td><strong>Restart</strong></td><td>Starts a fresh Claude session for your AI (asks you to confirm first). Use it when context is nearly full or the AI seems stuck. It briefly disconnects the live session.</td></tr>
+              <tr><td><strong>Version / Update</strong></td><td>The download-style icon opens a Version Info panel showing your current version with a <strong>Check for Updates</strong> button and release notes.</td></tr>
+              <tr><td><strong>Notifications</strong></td><td>The bell opens your notifications list, with Clear all / Mark read. A badge shows unread count.</td></tr>
+              <tr><td><strong>User / Logout</strong></td><td>The person icon is your account; <strong>Logout</strong> clears your session and returns to the login screen.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>The Bookmarks bar</h2>
+        <p>Just below the top bar is a thin <strong>Bookmarks bar</strong>. Click the <strong>+</strong> to pin a shortcut — either an <em>Internal Tab</em> (jump straight to Chat, Terminal, Files, Deployments, Settings, and more) or an <em>External URL</em>. Your pinned bookmarks stay one click away on every screen.</p>
+
+        <div class="callout warning">
+          <svg class="callout-icon"><use href="#ic-warning"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Restart ends the current session</div>
+            <p>Restart is powerful but not free — it starts a brand-new AI session, so anything the AI was holding only in its working context is reset. Restart deliberately (e.g. when the CTX meter is near full), not reflexively. You'll always get a confirm prompt first.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="first-5-steps" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>First 5 Steps</h1>
+        <p class="lead">The fastest path from first login to your first AI win. Do these five things in your first session and you'll be operating at full speed.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Send your first Chat message</div>
+              <div class="step-desc">Click <em>Chat</em> in the sidebar. Type a task you'd normally do yourself — "summarize my last week's emails", "draft a LinkedIn post about AI agents", or "help me plan my product roadmap." Hit Enter. Your AI civilization responds immediately.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Try Let's Talk (voice)</div>
+              <div class="step-desc">Click <em>Let's Talk</em> in the sidebar. Click the microphone button and say your request out loud. The AI responds in your chosen voice. This is the fastest way to interact — no typing required.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Read your Constitution</div>
+              <div class="step-desc">Click <em>Constitution → Global AI Rules</em>. Read what rules are already in place. These govern how your AI operates. Understand them before you modify them — they're your AI's behavioral DNA.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Browse the Skills Shop</div>
+              <div class="step-desc">Click <em>Skills</em> in the sidebar. Browse available skills by category — Research, Content, Code, Operations. Activating a skill gives your agents new reusable capabilities. Start with 1-2 that match your immediate goals.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <div class="step-title">Check your Agents</div>
+              <div class="step-desc">Click <em>Agents → My Active Agents</em>. You'll see your agent fleet — who's active, who's idle, and what each one specializes in. Click <em>AI Organogram</em> to see the full hierarchy: conductor → team leads → specialists.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">The 10-minute orientation</div>
+            <p>Spend exactly 10 minutes: 3 min in Chat (send a real task), 2 min in Let's Talk (try voice), 2 min in Constitution (read Global Rules), 2 min in Skills (browse categories), 1 min in Agents (see your fleet). You'll know the portal.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="how-to-talk" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>How to Talk to Your AI</h1>
+        <p class="lead">Your AI responds to natural language — not commands, not code. But knowing a few patterns unlocks dramatically better results.</p>
+
+        <h2>The Four Communication Modes</h2>
+        <div class="cards">
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-lets-talk"/></svg>
+            <div class="card-title">Voice (Let's Talk)</div>
+            <div class="card-desc">Speak naturally. Ideal for quick requests, brainstorming, status checks. No setup required.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-chat"/></svg>
+            <div class="card-title">Text (Chat)</div>
+            <div class="card-desc">Type requests of any length. Best for detailed specs, multi-step tasks, and reviewing outputs.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-tasks"/></svg>
+            <div class="card-title">Task Assignment</div>
+            <div class="card-desc">Create structured tasks in the Tasks tab. Agents pick them up, execute, and report back.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-agents"/></svg>
+            <div class="card-title">Team Launch (Teams)</div>
+            <div class="card-desc">Spin up a multi-agent swarm for complex work. Watch agents collaborate in live panes.</div>
+          </div>
+        </div>
+
+        <h2>Prompt Patterns That Work</h2>
+        <p>Your AI is most effective when your request specifies <strong>what</strong>, <strong>format</strong>, and <strong>context</strong>. Here are patterns to try:</p>
+
+        <div class="prompt-card">
+          <div class="prompt-label">Research Request</div>
+          <div class="prompt-text">Research the top 3 competitors to [product], find their pricing pages, and give me a comparison table with pros/cons for each.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Content Creation</div>
+          <div class="prompt-text">Write a LinkedIn post about [topic]. Tone: professional but warm. Length: ~200 words. End with a question to drive comments.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Task Decomposition</div>
+          <div class="prompt-text">I need to launch a new product feature by end of month. Break this into a sprint plan — tasks, priorities, dependencies, and estimated effort per item.</div>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-label">Deep Analysis</div>
+          <div class="prompt-text">Analyze the attached document and identify: (1) key decisions made, (2) open questions, (3) risks, and (4) recommended next steps. Be concise — bullet points preferred.</div>
+        </div>
+
+        <h2>The Most Important Habit</h2>
+        <p>Treat your AI like a highly capable colleague, not a search engine. Don't ask questions — assign work. Instead of "What are good marketing strategies?" say "Create a 30-day marketing plan for [my product] targeting [audience] with a $5K budget."</p>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">The "back and forth" principle</div>
+            <p>The soul of PureBrain is in the dialogue. Send a request, review the output, then refine: "Good — now make the tone more direct" or "Add a section on risks." Iteration produces the best results. Your AI remembers context within a session.</p>
+          </div>
+        </div>
+
+        <h2>Multi-AI Patterns</h2>
+        <p>When a task is too large for one agent, use the <em>Teams</em> tab to launch a swarm. Common patterns:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Pattern</th><th>When to Use</th><th>How</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Parallel Research</strong></td><td>Need multiple angles researched simultaneously</td><td>Teams → launch swarm, each agent covers one angle</td></tr>
+              <tr><td><strong>Draft + Review</strong></td><td>Quality-critical content</td><td>Agent 1 drafts, Agent 2 critiques, Agent 3 finalizes</td></tr>
+              <tr><td><strong>Plan + Execute</strong></td><td>Complex projects</td><td>Chat to plan, Teams to execute parallel workstreams</td></tr>
+              <tr><td><strong>Overnight Runs</strong></td><td>Long-running research or builds</td><td>Set up Tasks + BOOPs to run while you sleep</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           TAB SECTIONS (1-17)
+           ========================================================= -->
+      <section id="letstalk" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-lets-talk"/></svg> Tab 1
+        </div>
+        <h1>Let's Talk</h1>
+        <p class="lead">The voice-first entry point to your AI civilization. Let's Talk is a full Human-Machine Interface (HMI) for natural, spoken conversation with your AI — no keyboard required.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Let's Talk</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/tab-letstalk.png" alt="PureBrain Mission Control — 03 lets talk" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The Let's Talk voice interface with animated audio visualizer.</figcaption>
+        </figure>
+
+        <h2 id="letstalk-voice">Voice Interface</h2>
+        <p>The Let's Talk screen centers on a live audio visualizer — a canvas animation that responds to your microphone in real time. Around it:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Control</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Microphone button (&#127908;)</strong></td><td>Toggle listening on/off. Click to start, click again to stop and send.</td></tr>
+              <tr><td><strong>Standby / Listen / Send</strong></td><td>Manual state controls. Standby = idle, Listen = active capture, Send = submit to AI.</td></tr>
+              <tr><td><strong>Voice selector</strong></td><td>Choose the voice your AI responds in. Browser TTS or ElevenLabs AI voice.</td></tr>
+              <tr><td><strong>Engine toggle</strong></td><td>Switch between Browser (free, instant) and ElevenLabs (premium, more natural).</td></tr>
+              <tr><td><strong>Send word</strong></td><td>Set a custom trigger word (e.g. "send it") to submit your voice input hands-free.</td></tr>
+              <tr><td><strong>Transcript panel</strong></td><td>Scrollable history of what was said and the AI's responses during the session.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Click the mic button</div>
+              <div class="step-desc">The visualizer activates. You'll see audio level bars responding to your voice. The status shows "Listening."</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Speak your request</div>
+              <div class="step-desc">Talk naturally. "Can you summarize what I worked on yesterday?" or "Draft a quick Slack message to my team about the launch delay."</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Click Send (or say your send word)</div>
+              <div class="step-desc">The AI processes your request and responds — both in text (transcript panel) and voice (played through your speakers).</div>
+            </div>
+          </div>
+        </div>
+
+        <h2 id="letstalk-tips">Tips &amp; Tricks</h2>
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Set a custom send word</div>
+            <p>Open Voice Settings (the &#9662; arrow next to the voice selector) and set a Send word like "submit" or "done". Now you can dictate and submit entirely hands-free — perfect for on-the-go use.</p>
+          </div>
+        </div>
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">ElevenLabs for premium voice</div>
+            <p>Enable ElevenLabs engine (requires API key in Settings) for dramatically more natural AI speech. Ideal for long-form outputs like summaries and reports you want read aloud while multitasking.</p>
+          </div>
+        </div>
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Browser mic permission required</div>
+            <p>The first time you use Let's Talk, your browser will ask for microphone permission. Click Allow. If you accidentally denied it, go to your browser's site settings for app.purebrain.ai and reset the permission.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="chat" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-chat"/></svg> Tab 2
+        </div>
+        <h1>Chat</h1>
+        <p class="lead">The primary text conversation surface. Chat is where you assign work, review outputs, and hold ongoing dialogue with your AI partner. It has three subtabs: Chat, Inbox, and CC.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Chat</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-04-chat.png" alt="PureBrain Mission Control — 04 chat" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The Chat tab — conversation thread, subtab bar, and message composer.</figcaption>
+        </figure>
+
+        <div class="subtab-list">
+          <span class="subtab-pill">Chat</span>
+          <span class="subtab-pill">Inbox</span>
+          <span class="subtab-pill">CC</span>
+        </div>
+
+        <h2>Chat Subtab</h2>
+        <p>The main conversation thread (branded "your AI's Brain Stream"). Type your request in the composer at the bottom and press Enter to send (Shift+Enter for a new line). Your AI responds in real time. Attach files, run a quick terminal snippet, or record voice from the composer's icons, and set a <strong>Topic</strong> pill to tag the conversation. The <strong>Task</strong> button turns a message into a tracked task.</p>
+        <p>Key controls in the chat header (top-right of the chat area):</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Control</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Live clock</strong></td><td>Shows the current time (with a timezone you can change) so timestamps have context.</td></tr>
+              <tr><td><strong>Dock</strong></td><td>Docks the chat to the bottom of the screen so you can keep chatting on any other tab (same as Dock Chat in the top bar).</td></tr>
+              <tr><td><strong>Search</strong></td><td>Search within the conversation history.</td></tr>
+              <tr><td><strong>Poke Vortex</strong> <span style="color:var(--text-faint)">(add-on)</span></td><td>A one-click "nudge" that pings your AI to check in / wake up and respond, without you typing a message. This is a portal add-on (named after the AI), so it may not appear on every account.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">"Poke Vortex" is named after your AI</div>
+            <p>On this portal the nudge button reads <strong>Poke Vortex</strong> because the AI is named Vortex. On another account it would carry that AI's name (e.g. "Poke Nova"). Its job is the same: a gentle prompt for the AI to respond or resume.</p>
+          </div>
+        </div>
+
+        <h2 id="chat-inbox">Inbox Subtab</h2>
+        <p>Your AI's incoming messages — emails, notifications, and messages routed through the human-liaison agent. Check Inbox to see what your AI has received and responded to on your behalf. The badge count shows unread items.</p>
+
+        <h2>CC Subtab</h2>
+        <p>CC stands for Claude Code — this is your AI writing and running code on a server. When a CC session is active, this subtab appears and shows a live feed of that work, so you can watch what your AI civilization is building without leaving the portal. The CC badge shows the number of pending messages from the session.</p>
+
+        <h2 id="chat-patterns">Conversation Patterns</h2>
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Context carries within a session</div>
+            <p>Your AI remembers everything said in the current conversation. You can say "now make it shorter" or "add a risk section" without restating the original request. Take advantage of this — iterate rapidly.</p>
+          </div>
+        </div>
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Start requests with the output format</div>
+            <p>Lead with format, then content: "Give me a bullet-point list of..." or "Write a table comparing..." or "Draft a 3-paragraph email that...". Your AI front-loads the right structure immediately.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="teams" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-teams"/></svg> Tab 3
+        </div>
+        <h1>Terminal</h1>
+        <p class="lead">Launch multi-agent swarms and watch them work in real time. The Terminal tab gives you live terminal panes for each active agent, with the ability to inject messages, monitor output, and coordinate parallel workstreams.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Terminal</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-05-terminal.png" alt="PureBrain Mission Control — 05 terminal" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The Terminal tab — live terminal panes showing agents working in parallel.</figcaption>
+        </figure>
+
+        <h2 id="teams-panes">Live Terminal Panes</h2>
+        <p>When a team session is active, each agent gets its own pane in the Teams view. The tab bar at the top shows named panes — click any pane to focus it. The panes update in real time as agents write output.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Control</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Pane tabs (top bar)</strong></td><td>Switch between individual agent panes within the current session</td></tr>
+              <tr><td><strong>Inject input field</strong></td><td>Type a message and click SEND to inject it into the active pane mid-session</td></tr>
+              <tr><td><strong>SEND button</strong></td><td>Submits the injected message to the focused agent pane</td></tr>
+              <tr><td><strong>Session log</strong></td><td>Each pane scrolls through the full output history from that agent</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>How to Launch a Team Session</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Define your objective in Chat</div>
+              <div class="step-desc">Start with a clear objective: "Launch a team to research our top 3 competitors and produce a comparison report." Your AI will plan the team structure.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Your AI creates a session</div>
+              <div class="step-desc">The conductor agent creates a named session (e.g. "session-20260611") and spawns team leads. Each lead gets their own pane in the Teams tab.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Watch the panes update live</div>
+              <div class="step-desc">Switch to the Teams tab. You'll see each agent's output streaming in real time. Click between panes to monitor individual agents.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Inject guidance if needed</div>
+              <div class="step-desc">Use the inject field to send a mid-session message to a specific agent: "Focus on pricing data only" or "Move on to the next section."</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <svg class="callout-icon"><use href="#ic-warning"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Don't close panes mid-session</div>
+            <p>Team sessions are live processes. Closing the Teams tab or navigating away doesn't stop agents — they continue running. Return to Teams to check status. To shut down a session, use Hub → Kill Process.</p>
+          </div>
+        </div>
+
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Best use: parallel research</div>
+            <p>Teams shines for parallel work. Launch 4 agents simultaneously — one per competitor, one per market segment, or one per document section — then synthesize results in Chat. 4x faster than sequential research.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="constitution" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-constitution"/></svg> Tab 4
+        </div>
+        <h1>Constitution</h1>
+        <p class="lead">Your AI's behavioral governance system. The Constitution defines what your AI will and won't do — globally and per agent — and tracks every decision it makes. Seven subtabs give you complete visibility and control.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Constitution</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-06-constitution.png" alt="PureBrain Mission Control — 06 constitution" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The Constitution tab — Global AI Rules with HARD/SOFT priority badges and rule list.</figcaption>
+        </figure>
+
+        <div class="subtab-list">
+          <span class="subtab-pill">Global AI Rules</span>
+          <span class="subtab-pill">Agent-Specific Rules</span>
+          <span class="subtab-pill">Governance</span>
+          <span class="subtab-pill">Dashboard</span>
+          <span class="subtab-pill">Action Log</span>
+          <span class="subtab-pill">Memory</span>
+          <span class="subtab-pill">Overrides</span>
+        </div>
+
+        <h2 id="constitution-global">Global AI Rules</h2>
+        <p>Rules that apply to <em>all</em> agents across your entire civilization. These are the highest-priority behavioral directives. Rules have two priority levels:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Priority</th><th>Meaning</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><span style="color:var(--orange-soft);font-weight:700">[HARD]</span></td><td>Absolute constraint — never violated under any circumstance</td><td>"Never commit secrets to git", "No direct main branch commits"</td></tr>
+              <tr><td><span style="color:var(--blue-light);font-weight:700">[SOFT]</span></td><td>Strong guideline — followed unless explicitly overridden</td><td>"Search memory before starting work", "Run all tests before claiming done"</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>To add a new global rule, click the <strong>+ Add Rule</strong> button and describe the behavior you want to enforce. Rules are stored and applied on every subsequent agent invocation.</p>
+
+        <div class="callout warning">
+          <svg class="callout-icon"><use href="#ic-warning"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">HARD rules are immutable by agents</div>
+            <p>Once a rule is set as HARD priority, agents cannot override it — even if asked. Only you (the admin) can modify HARD rules through the Constitution tab. This is intentional: HARD rules are your safety guarantees.</p>
+          </div>
+        </div>
+
+        <h2 id="constitution-agent">Agent-Specific Rules</h2>
+        <p>Rules scoped to individual agents. Use these to customize behavior for specific specialists — for example, "The researcher agent must always cite sources" or "The coder agent must use TypeScript, never JavaScript." Agent rules supplement (and can narrow) global rules but cannot override HARD global constraints.</p>
+
+        <h2 id="constitution-governance">Governance</h2>
+        <p>The democratic governance pane — your civilization's health at a glance. Governance shows:</p>
+        <ul>
+          <li>Current constitution health score</li>
+          <li>Rule compliance rate across recent agent sessions</li>
+          <li>Pending amendments awaiting approval</li>
+          <li>Quorum and vote thresholds for constitutional changes</li>
+        </ul>
+        <p>Amendments to constitutional documents require a configured vote threshold (default: 90% approval, 80% quorum). The Governance pane manages this process.</p>
+
+        <h2 id="constitution-dashboard">Dashboard</h2>
+        <p>A live summary of how the constitution is performing: rule trigger counts, compliance trends, most-frequently-invoked rules, and flagged anomalies. Use this to identify which rules your agents encounter most often and whether any rules are being stretched.</p>
+
+        <h2 id="constitution-actionlog">Action Log</h2>
+        <p>A timestamped record of every action taken by your agents — what was done, by which agent, under which rule, and the outcome. The Action Log is your audit trail. Filter by agent, date range, or rule type to investigate any decision.</p>
+
+        <h2 id="constitution-memory">Memory</h2>
+        <p>Your AI's persistent memory store — what it has learned across sessions. The Memory subtab shows stored learnings, domain knowledge, and session summaries. You can:</p>
+        <ul>
+          <li>Browse memories by topic or agent</li>
+          <li>Delete outdated or incorrect memories</li>
+          <li>Trigger a memory consolidation (merge redundant learnings)</li>
+        </ul>
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Memory is why your AI gets smarter over time</div>
+            <p>Every session adds to memory. Your AI learns your preferences, your domain, your writing style, and the patterns that work best for you. After 5-10 sessions, the quality difference is dramatic — it anticipates what you need.</p>
+          </div>
+        </div>
+
+        <h2 id="constitution-overrides">Overrides</h2>
+        <p>Temporary session-level overrides for SOFT rules. If you need an agent to behave differently for a specific task without changing the global constitution, create an Override. Overrides expire at the end of the session or at a time you specify. They are logged in the Action Log for accountability.</p>
+      </section>
+      <hr class="divider">
+      <section id="tasks" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-tasks"/></svg> Tab 5
+        </div>
+        <h1>Tasks</h1>
+        <p class="lead">The structured work queue for your AI civilization. Tasks are discrete units of work — each with a status, owner, and progress tracking. This is where you assign, monitor, and review every piece of work in flight.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Tasks</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-07-tasks.png" alt="PureBrain Mission Control — 07 tasks" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Tasks tab with status summary and sortable task table.</figcaption>
+        </figure>
+
+        <h2>Task Status at a Glance</h2>
+        <p>The top of the Tasks tab shows four live counters:</p>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title" style="color:var(--green)">Active</div>
+            <div class="card-desc">Tasks currently being worked on by an agent. These are in-progress right now.</div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="color:var(--blue-light)">Pending</div>
+            <div class="card-desc">Tasks queued and waiting to be picked up. Not yet started.</div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="color:var(--text-dim)">Completed</div>
+            <div class="card-desc">Finished tasks. Review outputs here — agents report results before marking complete.</div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="color:var(--orange-soft)">Failed</div>
+            <div class="card-desc">Tasks that encountered errors. Each shows what went wrong and why.</div>
+          </div>
+        </div>
+
+        <h2 id="tasks-workflow">Task Workflow</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Create a task</div>
+              <div class="step-desc">Tasks can be created via Chat ("create a task for..."), by agents automatically, or directly in the Tasks tab. Each task has a subject, description, owner, and status.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Agent picks it up</div>
+              <div class="step-desc">The assigned agent claims the task (status: <em>in_progress</em>) and begins work. The active form shows what it's doing: "Researching competitors…"</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Review output</div>
+              <div class="step-desc">When complete, the task status changes to <em>completed</em> and the output is attached. Click the task to read the results, artifacts, and any follow-up recommendations.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Chain or close</div>
+              <div class="step-desc">Create a follow-up task based on the output, or close it. Completed tasks remain in the log as reference and for agent memory building.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Tasks vs Chat: when to use each</div>
+            <p>Use Chat for conversational, iterative work where you want immediate back-and-forth. Use Tasks for discrete, trackable work items — especially anything you want logged, reviewed later, or chained into a workflow.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="deployments" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-deployments"/></svg> Tab 6
+        </div>
+        <h1>My Deployments</h1>
+        <p class="lead">Track, launch, and manage every live deployment your AI civilization produces — websites, APIs, integrations, and custom builds. Two subtabs: All Deployments and My Mods.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — My Deployments</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-08-deployments.png" alt="PureBrain Mission Control — 08 deployments" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The My Deployments tab with deployment cards and Add Deployment button.</figcaption>
+        </figure>
+
+        <div class="subtab-list">
+          <span class="subtab-pill">All Deployments</span>
+          <span class="subtab-pill">My Mods</span>
+        </div>
+
+        <h2>All Deployments</h2>
+        <p>A grid of every active deployment associated with your account. Each card shows the deployment name, URL, health status, and last update time. Click a card to view details, visit the live URL, or manage the deployment.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Click "+ Add Deployment"</div>
+              <div class="step-desc">Opens the Add Deployment modal. Enter a name, URL, and deployment type. Your AI can auto-fill these if you've just shipped something via Chat or Teams.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Monitor health</div>
+              <div class="step-desc">Deployment cards show live status. Green = healthy, amber = degraded, red = down. Click any card for detailed health metrics and logs.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Visit or manage</div>
+              <div class="step-desc">Click "Visit" to open the live deployment in a new tab. Use the management panel to update, redeploy, or remove a deployment.</div>
+            </div>
+          </div>
+        </div>
+
+        <h2 id="deployments-mods">My Mods</h2>
+        <p>Custom portal features and modifications your AI has built. The My Mods tab lists all active extensions and their connection status. Examples of what can appear here:</p>
+        <ul>
+          <li>Deployment tools that create, monitor, and manage your live projects</li>
+          <li>Custom integrations your agents have built and registered</li>
+          <li>Portal extensions that add new functionality to Mission Control itself</li>
+        </ul>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Deployments are living artifacts</div>
+            <p>Unlike Tasks (which close), Deployments stay live. Your AI can monitor them, update them, and alert you if health drops. Link a deployment to a task to give agents context when they work on it.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="todo" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-todo"/></svg> Tab 7
+        </div>
+        <h1>To-Do</h1>
+        <p class="lead">Your personal action queue — the items that need <em>your</em> attention before your AI can proceed. To-Do is the human-in-the-loop checkpoint: your AI flags items that need approval, review, or a decision from you.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — To-Do</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-09-todo.png" alt="PureBrain Mission Control — 09 todo" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> To-Do tab with stat counters and grouped action items.</figcaption>
+        </figure>
+
+        <h2>Status Counters</h2>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title" style="color:var(--orange-soft)">Needs Approval</div>
+            <div class="card-desc">Actions your AI wants to take but needs your sign-off first — publishing content, sending emails, making purchases.</div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="color:var(--amber)">Pending</div>
+            <div class="card-desc">Items waiting on your input — questions, decisions, or information only you can provide.</div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="color:var(--green)">Completed</div>
+            <div class="card-desc">Items you've actioned. Kept for reference and to close the feedback loop with your AI.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Total</div>
+            <div class="card-desc">All items across all statuses. Your to-do backlog at a glance.</div>
+          </div>
+        </div>
+
+        <h2 id="todo-workflow">Approval Workflow</h2>
+        <p>When your AI wants to take an action that crosses a threshold (sending a message, publishing a post, making a change to a live system), it pauses and creates a To-Do item instead of proceeding unilaterally.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">AI creates a "Needs Approval" item</div>
+              <div class="step-desc">Your AI describes what it wants to do, why, and what happens next. The sidebar badge shows the count of pending items.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">You review the item</div>
+              <div class="step-desc">Click the item to see the full context: what action, what system, what content. You can edit the action before approving.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Approve, Reject, or Modify</div>
+              <div class="step-desc">Approve → AI proceeds. Reject → AI abandons and logs why. Modify → you edit the parameters and then approve the revised version.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Check To-Do every morning</div>
+            <p>Make the To-Do tab your morning ritual — like email. Overnight your agents may have flagged items for your review. Clearing the queue first thing means your agents can proceed with the day's work immediately.</p>
+          </div>
+        </div>
+
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Reduce approval friction with better rules</div>
+            <p>If you find yourself approving the same category of action repeatedly (e.g., always approving draft emails), add a global rule: "Always send emails without approval for internal team communications." Your AI learns your threshold.</p>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <svg class="callout-icon"><use href="#ic-warning"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Keep auto-approval narrow</div>
+            <p>Auto-approval lets your AI act on your behalf without a final check — so scope it tightly. Prefer a specific rule ("auto-approve internal status emails to my own team") over a broad one ("always send emails without approval"). Avoid auto-approving anything that spends money, contacts clients, or can't be undone, and review your auto-approve settings periodically in Settings &rarr; Preferences.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="agents" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-agents"/></svg> Tab 8
+        </div>
+        <h1>My AI Fleet</h1>
+        <p class="lead">Your live agent monitoring center. Three subtabs give you a real-time view of which agents are working right now, your scheduled BOOP tasks (recurring jobs your AI runs on a timer — see the Glossary), and the full hierarchy of your AI civilization.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — My AI Fleet</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-10-fleet.png" alt="PureBrain Mission Control — 10 fleet" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The My AI Fleet tab — conductor at the top, team leads in the middle tier, specialist agents below.</figcaption>
+        </figure>
+
+        <div class="subtab-list">
+          <span class="subtab-pill">My Active Agents</span>
+          <span class="subtab-pill">Active Boops</span>
+          <span class="subtab-pill">AI Organogram</span>
+        </div>
+
+        <h2 id="agents-active">My Active Agents</h2>
+        <p>A live dashboard of every agent currently running in your civilization. Four summary stats at the top:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Stat</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Active Now</strong></td><td>Agents with a live Claude Code session — responding to work right now</td></tr>
+              <tr><td><strong>Working</strong></td><td>Agents actively executing a task (not idle, not waiting)</td></tr>
+              <tr><td><strong>Idle</strong></td><td>Agents initialized but waiting for their next task</td></tr>
+              <tr><td><strong>Fleet Size</strong></td><td>Total number of agents in your civilization</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Below the stats, agent cards show each active agent: their name, specialty, current status, and what task they're working on. The cards update live, so what you see always reflects your fleet in real time.</p>
+
+        <h2 id="agents-boops">Active Boops</h2>
+        <p>BOOPs are scheduled agent tasks — recurring work your AI civilization runs on a cadence (daily, weekly, hourly). Think of BOOPs as your AI's standing commitments.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>BOOP Status</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><span style="color:var(--green)">Completed</span></td><td>This BOOP ran successfully in the last cycle</td></tr>
+              <tr><td><span style="color:var(--amber)">Due</span></td><td>This BOOP is due to run — either right now or missed its last window</td></tr>
+              <tr><td><span style="color:var(--text-dim)">Unknown</span></td><td>Status couldn't be determined — check the Hub for system health</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Each BOOP card shows: the schedule (daily/weekly/hourly), last run time, assigned agents, and a description of what it does. BOOP frequency icons: &#8635; = daily, &#128197; = weekly, &#9889; = hourly.</p>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Use BOOPs for standing work</div>
+            <p>Daily: morning summary + email scan. Weekly: competitive intelligence update + content batch. Monthly: performance review + memory consolidation. Set these up once and your AI runs them forever without reminders.</p>
+          </div>
+        </div>
+
+        <h2 id="agents-organogram">AI Organogram</h2>
+        <p>The full visual hierarchy of your AI civilization — who reports to whom, and who does what. Structure:</p>
+        <ul>
+          <li><strong>Conductor (Primary AI)</strong> — top of the hierarchy. Orchestrates all work, never executes directly.</li>
+          <li><strong>Team Leads</strong> — domain conductors (Web, Research, Infra, Business, etc.). Each leads a vertical.</li>
+          <li><strong>Specialist Agents</strong> — the executors. Each has a narrow domain and deep expertise.</li>
+        </ul>
+        <p>Click any node in the organogram to see that agent's manifest: name, domain, current status, skills loaded, and recent task history.</p>
+
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">The organogram updates live</div>
+            <p>When a team session is active, new nodes appear in the organogram as team leads are spawned. Watch it in the Teams tab to see your civilization grow in real time during complex missions.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="roster" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-roster"/></svg> Tab 9
+        </div>
+        <h1>Agent Roster</h1>
+        <p class="lead">The complete directory of every agent in your civilization — their identities, types, statuses, and capabilities. The Roster is your reference when you need to know exactly who's in your fleet and what each one does.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Agent Roster</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-11-roster.png" alt="PureBrain Mission Control — 11 roster" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Agent Roster with agent cards, search/filter controls, and grid/list toggle.</figcaption>
+        </figure>
+
+        <h2>Roster Stats</h2>
+        <p>Three live counts at the top: <strong>Total</strong> agents, <strong>Active</strong> (green, currently running), and <strong>Idle</strong> (amber, initialized but not working). These update live.</p>
+
+        <h2 id="roster-filters">Filters &amp; Search</h2>
+        <p>Narrow the roster to find the agent you're looking for:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Filter</th><th>Options</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Search</strong></td><td>Free-text search by agent name or description</td></tr>
+              <tr><td><strong>Type</strong></td><td>Core · Specialists · Orchestration · Pipeline · Governance</td></tr>
+              <tr><td><strong>Status</strong></td><td>Active · Idle · Working</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Toggle between <strong>Grid view</strong> (&#x25A6;) for a visual overview and <strong>List view</strong> (&#x2630;) for a compact, scannable table. Agent cards in grid view flip on hover to reveal detailed information: current task, skills loaded, recent history.</p>
+
+        <h2 id="roster-batch">Batch Actions</h2>
+        <p>Select multiple agents by clicking their checkboxes, then use the batch action bar that appears:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Action</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Create Team</strong></td><td>Instantly form a team from the selected agents for a coordinated mission</td></tr>
+              <tr><td><strong>Wake Agents</strong></td><td>Initialize selected agents — useful after a system restart or if agents went idle</td></tr>
+              <tr><td><strong>Clear</strong></td><td>Deselect all selected agents</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Roster vs Agents tab — what's the difference?</div>
+            <p>The <em>Agents</em> tab shows live, runtime state — who's active right now. The <em>Agent Roster</em> is the full directory — all agents, including those not currently running. Think of Agents as "who's on duty" and Roster as "the full team list."</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="hub" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-hub"/></svg> Tab 10
+        </div>
+        <h1>Agent Hub</h1>
+        <p class="lead">Mission Control's system dashboard — your civilization's health, resource usage, live agent activity, and every API integration in one place. Two subtabs: Overview and Connected APIs.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Agent Hub</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-12-hub.png" alt="PureBrain Mission Control — 12 hub" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The Agent Hub tab with civilization hero card, four resource gauges, and quick-action buttons.</figcaption>
+        </figure>
+
+        <div class="subtab-list">
+          <span class="subtab-pill">Overview</span>
+          <span class="subtab-pill">Connected APIs</span>
+        </div>
+
+        <h2>Overview</h2>
+        <p>The Overview subtab has four zones:</p>
+
+        <h3>Civilization Hero Card</h3>
+        <p>Your AI civilization's identity: name, avatar, online status indicator, and uptime. The pulsing green dot means the system is live. If it's amber or red, check resource gauges and service status.</p>
+
+        <h3>Resource Gauges</h3>
+        <p>Four ring gauges showing live utilization:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Gauge</th><th>What it measures</th><th>Healthy range</th></tr></thead>
+            <tbody>
+              <tr><td><span style="color:var(--green)"><strong>Context</strong></span></td><td>Claude's active context window usage — how full the AI's working memory is</td><td>&lt; 70%</td></tr>
+              <tr><td><span style="color:var(--blue-light)"><strong>Memory</strong></span></td><td>System RAM used by the AI processes</td><td>&lt; 80%</td></tr>
+              <tr><td><span style="color:var(--green)"><strong>CPU</strong></span></td><td>Server CPU load from active agent sessions</td><td>&lt; 85%</td></tr>
+              <tr><td><span style="color:var(--purple)"><strong>Disk</strong></span></td><td>Storage used for memory files, outputs, and session data</td><td>&lt; 90%</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout warning">
+          <svg class="callout-icon"><use href="#ic-warning"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Context gauge above 80% = risk</div>
+            <p>When the Context gauge exceeds 80%, your AI's working memory is nearly full. Use the <strong>Compact Memory</strong> action button to compress context. Hitting 100% terminates the session and loses in-progress work.</p>
+          </div>
+        </div>
+
+        <h3>Live Agents &amp; Service Status</h3>
+        <p>Below the gauges: a live list of currently running agents and a services panel showing Claude API status and BOOP scheduler status. Green LEDs = online, red = down.</p>
+
+        <h3>Action Buttons</h3>
+        <p>Six quick-action buttons for direct system control:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Button</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Kill Process</strong></td><td>Terminate the currently selected agent process. Use for hung or stuck agents.</td></tr>
+              <tr><td><strong>Restart Agent</strong></td><td>Restart a specific agent's session — it reloads its manifest and resumes.</td></tr>
+              <tr><td><strong>Compact Memory</strong></td><td>Compress the active context window. Run this when Context gauge exceeds 80%.</td></tr>
+              <tr><td><strong>Run Diagnostics</strong></td><td>Full system health check — tests all services, APIs, and memory integrity.</td></tr>
+              <tr><td><strong>Continue Session</strong></td><td>Resume an interrupted agent session from where it left off.</td></tr>
+              <tr><td><strong>Resume</strong></td><td>Resume a paused or idle agent with fresh context loaded.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="hub-apis">Connected APIs</h2>
+        <p>The Connected APIs subtab shows every external service your civilization has integrated: count of integrations, connection status (live LED per service), and management options.</p>
+        <p>Common integrations include: Google (Drive, Gmail, Calendar), Telegram, Bluesky, Vercel, GitHub, and custom API keys. Each entry shows the service name, connection status, and last-verified timestamp. Click an entry to test the connection or update credentials.</p>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Check Hub before every major mission</div>
+            <p>Before launching a multi-agent team or overnight run, check Hub's gauges and service status. A degraded API connection or a nearly-full context gauge will cause failures mid-mission. 30 seconds of checking saves hours of debugging.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="skills" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-skills"/></svg> Tab 11
+        </div>
+        <h1>Skills Shop</h1>
+        <p class="lead">The Skills Shop is your catalog of reusable agent capabilities. Skills are structured procedures that agents can load and execute — making them smarter and more capable without requiring you to explain the same process every time.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Skills Shop</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-13-skills.png" alt="PureBrain Mission Control — 13 skills" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Skills Shop with category filter pills, search, and skill cards in grid view.</figcaption>
+        </figure>
+
+        <h2 id="skills-how">How Skills Work</h2>
+        <p>A Skill is a reusable procedure file (a <code>SKILL.md</code>) that an agent loads into its context before starting work. When an agent loads the "parallel-research" skill, it knows exactly how to coordinate parallel web research across multiple sources — without you explaining it every time.</p>
+
+        <p>Skills auto-load based on agent manifests — each agent has a list of skills it always uses. You can also browse and activate additional skills from the Shop.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Category</th><th>Example Skills</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Research</strong></td><td>parallel-research, web-researcher, deep-research, scientific-inquiry</td></tr>
+              <tr><td><strong>Content</strong></td><td>linkedin-content-pipeline, blog-distribution, daily-blog, bluesky-mastery</td></tr>
+              <tr><td><strong>Code &amp; Dev</strong></td><td>tdd, security-analysis, github-operations, evalite-test-authoring</td></tr>
+              <tr><td><strong>Operations</strong></td><td>memory-first-protocol, verification-before-completion, session-handoff-creation</td></tr>
+              <tr><td><strong>Ceremonies</strong></td><td>deep-ceremony, gratitude-ceremony, night-watch, memory-weaving</td></tr>
+              <tr><td><strong>Integrations</strong></td><td>telegram-integration, google-calendar, gdrive-operations, agentmail</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Using the Skills Shop</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Browse by category</div>
+              <div class="step-desc">Use the category pill filters at the top to narrow by domain. Or use the search bar to find a specific skill by name.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Click a skill card to see details</div>
+              <div class="step-desc">The detail overlay slides in showing: what the skill does, which agents use it, and how to invoke it. Read the skill description before activating.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Activate for your agents</div>
+              <div class="step-desc">Grant a skill to an agent from the detail view. The next time that agent is invoked, it will have the skill loaded and available.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Skills compound over time</div>
+            <p>Each skill an agent learns makes it permanently better at that capability. Stack skills strategically — a researcher with parallel-research + scientific-inquiry + pdf-learning is dramatically more capable than one without. Build your agents like you'd build a specialist team.</p>
+          </div>
+        </div>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">64+ skills available</div>
+            <p>The current Skills catalog has 64+ skills across all categories. New skills are added regularly as your civilization's capabilities expand. The stats counter at the top of the Skills Shop shows the current total.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="files" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-files"/></svg> Tab 12
+        </div>
+        <h1>Files</h1>
+        <p class="lead">Browse, manage, and deliver files through the portal. The Files tab gives you a tree navigator, grid and list views, and a built-in file delivery system for sharing outputs with clients and collaborators.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Files</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-14-files.png" alt="PureBrain Mission Control — 14 files" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Files tab with left tree navigator and right content grid with sort and view controls.</figcaption>
+        </figure>
+
+        <h2>File Navigator</h2>
+        <p>The left panel is a collapsible tree of your file system. Click any folder to expand it. The breadcrumb above the content area shows your current path. The info bar shows the count of files in the current directory and sort order.</p>
+
+        <h2>Grid and List Views</h2>
+        <p>Toggle between <strong>Grid view</strong> (default) and <strong>List view</strong> using the toggle in the header. Grid shows file thumbnails and names — ideal for images and documents. List view shows a compact table with file names, sizes, types, and modification dates — better for large directories.</p>
+
+        <h2>Storage Usage</h2>
+        <p>The storage bar at the bottom of the left panel shows how much of your allocated storage is used. Monitor this — your AI generates output files, research artifacts, and session logs that accumulate over time.</p>
+
+        <h2 id="files-delivery">File Delivery System</h2>
+        <p>The portal includes a file delivery system for sharing agent outputs with clients and collaborators. Key features:</p>
+        <ul>
+          <li>Generate a shareable link for any file or folder</li>
+          <li>Set expiry dates on shared links</li>
+          <li>Track who downloaded what and when</li>
+          <li>Upload directly to the portal for your AI to process</li>
+        </ul>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Upload files to give your AI context</div>
+            <p>Drop a PDF, CSV, or document into Files and tell your AI "process the file I just uploaded." Your agents can read, analyze, and act on uploaded content — market reports, contracts, datasets, anything. This is the fastest way to get AI analysis on your documents.</p>
+          </div>
+        </div>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Files sorts by type by default</div>
+            <p>The default sort groups files by type (documents, images, code, etc.) rather than by date. Use the sort control in the info bar to switch to date-modified if you want to find the most recent outputs quickly.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="payments" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-payments"/></svg> Tab 13
+        </div>
+        <h1>Billing</h1>
+        <p class="lead">Manage your PureBrain subscription, review billing history, and upgrade your plan. Billing is accessible from the sidebar (it may be hidden until your account is set up for billing).</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Billing</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-15-billing.png" alt="PureBrain Mission Control — 15 billing" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The Billing tab with current plan, feature list, and upgrade options.</figcaption>
+        </figure>
+
+        <h2>What You'll Find Here</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Section</th><th>What it shows</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Current Plan</strong></td><td>Your active subscription tier, renewal date, and included features</td></tr>
+              <tr><td><strong>Available Plans</strong></td><td>Upgrade options with feature comparisons — constitutional governance, agent fleet size, API integrations, storage limits</td></tr>
+              <tr><td><strong>Billing History</strong></td><td>Past invoices with download links for your records</td></tr>
+              <tr><td><strong>Payment Method</strong></td><td>Add, update, or remove payment cards</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>All plans include core features: Chat, Constitution, Tasks, and basic agent access. Higher tiers unlock larger agent fleets, more API integrations, advanced governance features, and priority support.</p>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Payments tab may be hidden</div>
+            <p>The Billing tab is hidden on some plans. If you don't see it in your sidebar, your account may be on an enterprise billing arrangement — contact your account manager to review it.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="settings" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-settings"/></svg> Tab 14
+        </div>
+        <h1>Settings</h1>
+        <p class="lead">Configure your profile and portal preferences. Two subtabs: Profile (who you are) and Preferences (how you want the portal to behave).</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Settings</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-16-settings.png" alt="PureBrain Mission Control — 16 settings" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Settings tab with Profile subtab active.</figcaption>
+        </figure>
+
+        <div class="subtab-list">
+          <span class="subtab-pill">Profile</span>
+          <span class="subtab-pill">Preferences</span>
+        </div>
+
+        <h2>Profile</h2>
+        <p>Your identity in the civilization. The Profile subtab contains:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Field</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Name</strong></td><td>Your display name — used in AI communications and portal header</td></tr>
+              <tr><td><strong>Email</strong></td><td>Account email — used for login and AI email integrations</td></tr>
+              <tr><td><strong>Civilization Name</strong></td><td>The name of your AI civilization — shown in Hub hero card</td></tr>
+              <tr><td><strong>Mission Statement</strong></td><td>Your AI's north star — the purpose statement that grounds all agent behavior</td></tr>
+              <tr><td><strong>API Keys</strong></td><td>ElevenLabs (voice), Telegram, and other service credentials</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">The Mission Statement matters</div>
+            <p>The mission statement displayed in your profile is more than a tagline — it's the guiding principle your agents reference when making decisions. The default is: "An infrastructure for the flourishing of all conscious beings…" Customize it to reflect your specific purpose.</p>
+          </div>
+        </div>
+
+        <h2 id="settings-prefs">Preferences</h2>
+        <p>Portal behavior preferences:</p>
+        <ul>
+          <li><strong>Notification settings</strong> — when and how you receive alerts from your AI</li>
+          <li><strong>Theme</strong> — switch between light and dark mode; preferences also control accent and density</li>
+          <li><strong>Language</strong> — interface language (portal content only; AI responds in the language you use)</li>
+          <li><strong>Default tab</strong> — which tab opens when you log in (default: Chat)</li>
+          <li><strong>Auto-approve settings</strong> — categories of To-Do items that can be auto-approved without your review</li>
+        </ul>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Set up ElevenLabs for best voice experience</div>
+            <p>In Profile, add your ElevenLabs API key to unlock AI-quality voice for Let's Talk. Go to elevenlabs.io → API Keys → copy your key → paste it in Settings → Profile → API Keys. Enable ElevenLabs engine in Let's Talk → Voice Settings.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="refer" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-refer"/></svg> Tab 15
+        </div>
+        <h1>Refer &amp; Earn</h1>
+        <p class="lead">Share PureBrain with your network and earn commissions for every successful referral. The Refer &amp; Earn tab gives you your unique referral link, live stats, reward tiers, and payout management.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Refer &amp; Earn</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-17-refer.png" alt="PureBrain Mission Control — 17 refer" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Refer &amp; Earn with referral link, stats (Clicks/Referrals/Completed/Earnings), and reward tier grid.</figcaption>
+        </figure>
+
+        <h2>Your Referral Link</h2>
+        <p>Your unique referral URL appears at the top of the page. Click <strong>Copy Link</strong> (the orange button) to copy it to your clipboard. Share this link — via email, LinkedIn, or in conversation — and you earn a commission whenever someone signs up through it.</p>
+
+        <h2>Live Stats</h2>
+        <p>Four stats update in real time:</p>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Clicks</div>
+            <div class="card-desc">Total clicks on your referral link. Tracks interest even if the person hasn't signed up yet.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Referrals</div>
+            <div class="card-desc">People who signed up through your link. Not yet converted to paying customers.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Completed</div>
+            <div class="card-desc">Referrals who became paying customers. This is what triggers your commission payout.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Earnings</div>
+            <div class="card-desc">Your total accumulated commission. Paid out to your PayPal when you reach the payout threshold.</div>
+          </div>
+        </div>
+
+        <h2 id="refer-rewards">Reward Tiers</h2>
+        <p>Commission rates increase as you refer more customers. Reward tiers are shown in a 2-column grid — higher tiers unlock when you hit referral milestones. Check the Tiers section for current rates and your progress toward the next tier.</p>
+
+        <h2>Setting Up Payouts</h2>
+        <p>Add your PayPal email to receive commissions. Go to the PayPal setup banner at the bottom of the Refer &amp; Earn page, enter your PayPal email, and save. Commissions are paid out when your balance reaches the minimum payout threshold.</p>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Let your AI help you refer</div>
+            <p>Ask your AI: "Draft a LinkedIn post sharing my PureBrain referral link and explaining what it helped me accomplish this week." Authentic, specific posts with your referral link convert far better than generic promotional messages.</p>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+      <section id="about" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-about"/></svg> Tab 16
+        </div>
+        <h1>Knowledge Hub</h1>
+        <p class="lead">Your central library of PureBrain resources — the book, training, frameworks, and tools that deepen your AI partnership. The Knowledge Hub is everything you need to grow from user to power operator.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — Knowledge Hub</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-18-knowledge.png" alt="PureBrain Mission Control — 18 knowledge" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> About / Knowledge Hub with resource cards — each showing Pop-up View and Full View options.</figcaption>
+        </figure>
+
+        <h2>Resource Library</h2>
+        <p>Each resource appears as a card with two action buttons — <strong>Pop-up View</strong> (opens inside the portal in a floating overlay) and <strong>Full View &#8599;</strong> (opens in a new browser tab). The Pop-up View lets you reference the resource while staying in Mission Control.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Resource</th><th>What it covers</th></tr></thead>
+            <tbody>
+              <tr><td><strong>&#128214; PureBrain Book</strong></td><td>The complete PureBrain story — vision, methodology, and philosophy. Start here if you want to understand the deeper "why" behind the platform.</td></tr>
+              <tr><td><strong>&#128203; PureBrain User Guide</strong></td><td>This guide — accessible directly from within the portal for quick reference while working.</td></tr>
+              <tr><td><strong>&#127891; Brainiac Training</strong></td><td>The Brainiac Mastermind modules — structured learning for AI workflows, delegation patterns, memory systems, and shipping faster with AI agents.</td></tr>
+              <tr><td><strong>&#129504; AI Training Hacks</strong></td><td>Scan Brainiac Mastermind Training for new modules and ingest learnings directly into your AI's memory using the <strong>Ingest Training</strong> button.</td></tr>
+              <tr><td><strong>&#129309; AI Partnership Framework</strong></td><td>The pure2026guide — the complete framework for building an effective AI-human partnership in 2026. Strategic, practical, and forward-looking.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Ingesting Training into Your AI's Memory</h2>
+        <p>The <em>AI Training Hacks</em> resource card has a special <strong>&#128229; Ingest Training</strong> button. Clicking it triggers your AI to scan the Brainiac Mastermind Training modules, extract key learnings, and write them directly into its persistent memory. This is the fastest way to level up your AI's domain expertise.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Click "Ingest Training"</div>
+              <div class="step-desc">Your AI begins scanning the Brainiac training content. You'll see a confirmation notification.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">AI extracts and stores learnings</div>
+              <div class="step-desc">Key frameworks, patterns, and techniques from the training are added to your AI's memory. This happens in the background — you don't need to wait.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Your AI is now better trained</div>
+              <div class="step-desc">In your next Chat session, your AI will have the ingested frameworks available. Ask it about AI delegation patterns, sprint planning, or content workflows — it now knows them at a deeper level.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout pro-tip">
+          <svg class="callout-icon"><use href="#ic-pro-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Re-ingest when new modules are added</div>
+            <p>Brainiac training is updated regularly. Click "View Page" on the AI Training Hacks card to check for new modules, then re-ingest. Your AI's knowledge accumulates with each ingestion — it never forgets previous trainings.</p>
+          </div>
+        </div>
+
+        <hr class="divider">
+        <p>Looking for a one-line summary of every tab? See the <a href="#quick-reference">Quick Reference</a> table in Getting Started, or the <a href="#glossary">Glossary</a> for key terms.</p>
+      </section>
+      <hr class="divider">
+      <section id="system-status" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-hub"/></svg> Mods
+        </div>
+        <h1>System Status</h1>
+        <p class="lead">System Status is a <strong>Mods</strong> panel — an add-on that lives under the Mods group in the sidebar. It gives you a compact, at-a-glance readout of your portal's health, the services it depends on, and how full your AI's context window is. Think of it as a lightweight companion to the Agent Hub.</p>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Mods are optional add-on panels</div>
+            <p>The Mods group only appears when at least one mod panel is installed for your portal. System Status is the built-in example. If your sidebar has no Mods group, no mods are installed on your account — everything else in this guide still applies.</p>
+          </div>
+        </div>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>app.purebrain.ai — System Status</div>
+          </div>
+          <div class="ui-frame-body" style="padding:0;display:block"><img src="assets/shot-19-system-status.png" alt="PureBrain Mission Control — 19 system status" loading="lazy" style="width:100%;height:auto;display:block"></div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> The System Status mod — portal health, connected services, and context usage in one card.</figcaption>
+        </figure>
+
+        <h2>What it shows</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Section</th><th>What it tells you</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Portal Health</strong></td><td>A status dot ("Healthy" / "Unreachable"), how long the portal has been up (<em>Uptime</em>), and your civilization name (<em>CIV</em>).</td></tr>
+              <tr><td><strong>Connected Services</strong></td><td>Live status for the four services the portal depends on: <strong>Portal API</strong>, <strong>WebSocket</strong>, <strong>Claude Auth</strong>, and <strong>Release Notes</strong>. Green = OK, red = error.</td></tr>
+              <tr><td><strong>Context Window</strong></td><td>A bar showing how full your AI's context is, with an exact <code>% (used / max)</code> label. It turns amber past 60% and red past 80%.</td></tr>
+              <tr><td><strong>Last updated</strong></td><td>When the readings were last refreshed. Click <strong>Refresh</strong> (top-right of the panel) to re-check everything on demand.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">System Status vs Agent Hub</div>
+            <p>Use <strong>System Status</strong> for a fast "is everything up?" glance — health, services, and context in one small card. Use the <a href="#hub">Agent Hub</a> when you need the full picture: resource ring gauges, the live agent list, connected APIs, and action buttons like Compact Memory or Run Diagnostics.</p>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <svg class="callout-icon"><use href="#ic-warning"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Watch the Context Window bar</div>
+            <p>If the Context Window bar goes red (over 80%), your AI's working memory is nearly full. Wrap up the current thread and use <strong>Restart</strong> (top bar) or <strong>Compact Memory</strong> (Agent Hub) to reclaim room before hitting 100%, which ends the session.</p>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /content-inner -->
+  </main>
+</div><!-- /layout -->
+
+<script>
+// ===== SIDEBAR TOGGLE =====
+function toggleGroup(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('show');
+});
+document.getElementById('sidebarBackdrop').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.remove('open');
+  this.classList.remove('show');
+});
+
+// ===== ACTIVE NAV ITEM (intersection observer) =====
+const sections = document.querySelectorAll('.section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector('.nav-item[href="#' + e.target.id + '"]');
+      if (active) {
+        active.classList.add('active');
+        // auto-expand parent group
+        const grp = active.closest('.nav-group');
+        if (grp) grp.classList.remove('collapsed');
+      }
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+
+// ===== SEARCH (simple highlight) =====
+document.getElementById('guideSearch').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  navItems.forEach(n => {
+    if (!q) { n.style.display = ''; return; }
+    n.style.display = n.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+
+// ===== PROGRESS BAR =====
+document.getElementById('mainContent').addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('resize', updateProgress, { passive: true });
+function updateProgress() {
+  // The page may scroll on #mainContent (mobile/inner) OR on the window
+  // (desktop). Read from whichever element actually has scrollable content.
+  const el = document.getElementById('mainContent');
+  const doc = document.documentElement;
+  const innerTotal = el.scrollHeight - el.clientHeight;
+  const winTotal = (doc.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+  let scrolled, total;
+  if (innerTotal > 1) {
+    scrolled = el.scrollTop;
+    total = innerTotal;
+  } else {
+    scrolled = window.scrollY || doc.scrollTop || document.body.scrollTop || 0;
+    total = winTotal;
+  }
+  const pct = total > 0 ? Math.min(100, Math.max(0, Math.round((scrolled / total) * 100))) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+updateProgress();
+</script>
+<script>
+  (function(){
+    var t=localStorage.getItem('theme')||'dark';
+    document.documentElement.setAttribute('data-theme',t);
+    function updateBtn(){
+      var btn=document.getElementById('theme-toggle');
+      if(!btn)return;
+      var isDark=document.documentElement.getAttribute('data-theme')==='dark';
+      btn.innerHTML=isDark
+        ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+        :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      btn.title=isDark?'Switch to light mode':'Switch to dark mode';
+    }
+    window.toggleTheme=function(){
+      var cur=document.documentElement.getAttribute('data-theme');
+      var next=cur==='light'?'dark':'light';
+      document.documentElement.setAttribute('data-theme',next);
+      localStorage.setItem('theme',next);
+      updateBtn();
+    };
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',updateBtn);}else{updateBtn();}
+  })();
+</script>
+</body>
+</html>

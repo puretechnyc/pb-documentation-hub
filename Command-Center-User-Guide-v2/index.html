@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureBrain Command Center — User Guide v2.0</title>
+<meta name="description" content="The complete guide to the PureBrain Command Center (v2.0) — logging in, the tab-by-tab tour, Chat, the Meetings-to-Tasks pipeline, your AI partner, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PureBrain Command Center — User Guide v2.0
+   Inline CSS (graphico design system)
+   ============================================================================ */
+:root {
+  --bg:            #080a12;
+  --bg-2:          #0b0e18;
+  --sidebar-bg:    #0a0d16;
+  --topbar-bg:     #0a0d17;
+  --card-bg:       rgba(20, 26, 42, 0.55);
+  --card-bg-solid: #10141f;
+  --frame-bg:      #0d1019;
+  --border:        rgba(255,255,255,0.07);
+  --border-light:  rgba(255,255,255,0.12);
+  --border-blue:   rgba(42,147,193,0.28);
+  --blue:          #2a93c1;
+  --blue-light:    #5eb8d9;
+  --blue-bright:   #7ec8e3;
+  --blue-deep:     #1d6f95;
+  --orange:        #f1420b;
+  --orange-soft:   #f5836a;
+  --green:         #22c55e;
+  --green-soft:    #6ee7a0;
+  --amber:         #eab308;
+  --amber-soft:    #f5cf57;
+  --purple:        #8b7ff0;
+  --text:          #e8edf5;
+  --text-soft:     #c8d2e0;
+  --text-dim:      #9ca3af;
+  --text-faint:    #6b7280;
+  --heading:       #f3f7fc;
+  --radius-sm:     8px;
+  --radius:        12px;
+  --radius-lg:     16px;
+  --sidebar-w:     260px;
+  --toc-w:         200px;
+  --topbar-h:      58px;
+  --content-max:   780px;
+  --font-head: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  --ease:  cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 8px 24px rgba(0,0,0,0.25);
+  --glow-blue:  0 0 24px rgba(42,147,193,0.18);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 24px); -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg); color: var(--text);
+  line-height: 1.65; min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(900px 500px at 78% -8%, rgba(42,147,193,0.10), transparent 60%),
+    radial-gradient(700px 500px at -5% 105%, rgba(42,147,193,0.06), transparent 55%);
+  background-attachment: fixed;
+}
+a { color: var(--blue-light); text-decoration: none; transition: color 0.15s var(--ease); }
+a:hover { color: var(--blue-bright); }
+::selection { background: rgba(42,147,193,0.35); color: #fff; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.09); border-radius: 6px; }
+*::-webkit-scrollbar-thumb:hover { background: rgba(42,147,193,0.4); }
+
+/* TOP BAR */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: rgba(10,13,23,0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 22px; z-index: 100; gap: 18px;
+}
+.brand-lockup { display: flex; align-items: center; gap: 10px; white-space: nowrap; text-decoration: none; }
+.brand-lockup .hex { width: 30px; height: 30px; flex-shrink: 0; display: block; color: var(--blue); }
+.wordmark { font-family: var(--font-head); font-weight: 700; font-size: 19px; letter-spacing: 0.5px; line-height: 1; }
+.wordmark .wm-blue   { color: var(--blue); }
+.wordmark .wm-orange { color: var(--orange); }
+.wordmark .wm-white  { color: #ffffff; }
+.topbar-divider { width: 1px; height: 24px; background: var(--border); }
+.topbar-guide-label { font-family: var(--font-head); font-size: 12px; font-weight: 500; color: var(--text-dim); letter-spacing: 0.5px; }
+.topbar-search { flex: 1; max-width: 380px; position: relative; }
+.topbar-search input {
+  width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 8px 14px 8px 36px;
+  color: var(--text); font-family: var(--font-body); font-size: 13.5px; outline: none;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.topbar-search input::placeholder { color: var(--text-faint); }
+.topbar-search input:focus { border-color: var(--blue); background: rgba(42,147,193,0.06); }
+.topbar-search .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; opacity: 0.5; pointer-events: none; color: var(--text-dim); }
+.topbar-right { display: flex; align-items: center; gap: 14px; margin-left: auto; }
+.topbar-tag { font-family: var(--font-head); font-size: 10.5px; font-weight: 600; color: var(--blue); background: rgba(42,147,193,0.10); border: 1px solid rgba(42,147,193,0.25); padding: 4px 11px; border-radius: 20px; letter-spacing: 1.2px; text-transform: uppercase; }
+.topbar-version { font-size: 11.5px; color: var(--text-dim); font-weight: 500; }
+.hamburger { display: none; cursor: pointer; background: none; border: none; color: var(--text); width: 24px; height: 24px; line-height: 0; }
+.hamburger svg { width: 24px; height: 24px; }
+
+/* LAYOUT */
+.layout { display: flex; margin-top: var(--topbar-h); min-height: calc(100vh - var(--topbar-h)); }
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w); min-width: var(--sidebar-w);
+  background: var(--sidebar-bg); border-right: 1px solid var(--border);
+  position: sticky; top: var(--topbar-h); height: calc(100vh - var(--topbar-h));
+  overflow-y: auto; padding: 14px 0 28px; flex-shrink: 0;
+}
+.nav-group { margin-bottom: 2px; }
+.nav-group-header {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 18px 9px 16px; cursor: pointer; user-select: none;
+  transition: background 0.15s var(--ease);
+}
+.nav-group-header:hover { background: rgba(255,255,255,0.025); }
+.nav-group-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.9; color: var(--blue); }
+.nav-group-title { font-family: var(--font-head); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.3px; color: var(--text-dim); flex: 1; }
+.nav-group-chevron { width: 12px; height: 12px; flex-shrink: 0; color: var(--text-faint); transition: transform 0.22s var(--ease); }
+.nav-group.collapsed .nav-group-chevron { transform: rotate(-90deg); }
+.nav-group-items { overflow: hidden; max-height: 1000px; transition: max-height 0.3s var(--ease), opacity 0.2s var(--ease); opacity: 1; }
+.nav-group.collapsed .nav-group-items { max-height: 0; opacity: 0; }
+.nav-item {
+  display: block; padding: 6px 16px 6px 43px;
+  font-size: 13px; color: var(--text-dim); cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: none;
+}
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--blue-light); border-left-color: var(--blue); background: linear-gradient(90deg, rgba(42,147,193,0.10), transparent); font-weight: 600; }
+.sidebar-progress { margin: 16px 16px 0; padding: 12px 14px; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.sidebar-progress-label { font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; display: flex; justify-content: space-between; margin-bottom: 7px; }
+.sidebar-progress-label b { color: var(--blue-light); font-weight: 700; }
+.progress-track { width: 100%; height: 5px; background: rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue-deep), var(--blue-light)); border-radius: 3px; transition: width 0.4s var(--ease); }
+.sidebar-backdrop { display: none; position: fixed; inset: var(--topbar-h) 0 0 0; background: rgba(0,0,0,0.55); z-index: 94; }
+.sidebar-backdrop.show { display: block; }
+
+/* CONTENT */
+.content { flex: 1; min-width: 0; padding: 40px 48px 96px; }
+.content-inner { max-width: var(--content-max); margin: 0 auto; }
+
+/* HERO */
+.guide-hero { margin: 0 0 48px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-blue); box-shadow: var(--glow-blue), 0 24px 60px rgba(0,0,0,0.45); height: 380px; position: relative; display: flex; align-items: center; justify-content: center; text-align: center;
+  background:
+    radial-gradient(1200px 600px at 82% -20%, rgba(241,66,11,0.16), transparent 55%),
+    radial-gradient(1000px 700px at 10% 120%, rgba(42,147,193,0.22), transparent 55%),
+    radial-gradient(700px 500px at 50% 50%, rgba(42,147,193,0.10), transparent 60%),
+    linear-gradient(160deg, #060810 0%, #0a1322 45%, #081019 100%);
+}
+.guide-hero::before { content:""; position:absolute; inset:0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.55), transparent),
+    radial-gradient(1.5px 1.5px at 70% 65%, rgba(255,255,255,0.40), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(126,200,227,0.55), transparent),
+    radial-gradient(1px 1px at 85% 22%, rgba(245,131,106,0.55), transparent),
+    radial-gradient(1px 1px at 55% 18%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1.5px 1.5px at 32% 58%, rgba(255,255,255,0.30), transparent);
+  opacity: 0.9; pointer-events:none;
+}
+.guide-hero::after { content:""; position:absolute; left:-30%; top:-60%; width:160%; height:220%;
+  background: conic-gradient(from 140deg at 70% 30%, transparent 0deg, rgba(42,147,193,0.10) 60deg, transparent 140deg);
+  pointer-events:none;
+}
+.guide-hero .hero-inner { position: relative; z-index: 2; padding: 0 28px; max-width: 680px; }
+.guide-hero .hero-hex { width: 56px; height: 56px; margin: 0 auto 18px; display: block; color: var(--blue-bright); filter: drop-shadow(0 0 18px rgba(42,147,193,0.6)); }
+.guide-hero .hero-kicker { font-family: var(--font-head); font-size: 12.5px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--blue-light); margin-bottom: 14px; }
+.guide-hero h1.hero-title { font-family: var(--font-head); font-weight: 700; font-size: clamp(30px, 5vw, 50px); line-height: 1.04; letter-spacing: 0.5px; color: #fff; margin: 0 0 14px; }
+.guide-hero h1.hero-title .accent { color: var(--orange-soft); }
+.guide-hero .hero-sub { font-size: clamp(14px, 2vw, 17px); color: var(--text-soft); max-width: 540px; margin: 0 auto; line-height: 1.6; }
+.guide-hero .hero-version { display: inline-block; margin-top: 18px; font-family: var(--font-mono); font-size: 11.5px; color: var(--blue-bright); background: rgba(42,147,193,0.12); border: 1px solid var(--border-blue); border-radius: 999px; padding: 4px 14px; letter-spacing: 1px; }
+[data-theme="light"] .guide-hero { background:
+    radial-gradient(1200px 600px at 82% -20%, rgba(241,66,11,0.14), transparent 55%),
+    radial-gradient(1000px 700px at 10% 120%, rgba(42,147,193,0.20), transparent 55%),
+    linear-gradient(160deg, #0a1322 0%, #102236 50%, #0a1626 100%); }
+
+/* SECTIONS */
+.section { padding-top: 8px; margin-bottom: 64px; scroll-margin-top: calc(var(--topbar-h) + 20px); }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-head); font-size: 11px; font-weight: 600; color: var(--blue);
+  text-transform: uppercase; letter-spacing: 1.4px; margin-bottom: 14px;
+}
+.section-eyebrow .eyebrow-icon { width: 20px; height: 20px; }
+hr.divider { border: none; height: 1px; background: var(--border); margin: 40px 0; }
+
+/* TYPOGRAPHY */
+h1, .h1 { font-family: var(--font-head); font-weight: 700; font-size: 40px; line-height: 1.08; letter-spacing: -0.2px; color: var(--heading); margin-bottom: 16px; }
+h2, .h2 { font-family: var(--font-head); font-weight: 600; font-size: 26px; line-height: 1.2; color: var(--heading); margin: 40px 0 14px; padding-top: 6px; }
+h3, .h3 { font-family: var(--font-head); font-weight: 500; font-size: 19px; line-height: 1.3; color: var(--blue-bright); margin: 26px 0 10px; }
+h4, .h4 { font-family: var(--font-body); font-weight: 700; font-size: 15px; color: var(--text); letter-spacing: 0.2px; margin: 18px 0 6px; }
+.lead { font-size: 17px; line-height: 1.7; color: var(--text-soft); margin-bottom: 26px; font-weight: 400; }
+.section p { font-size: 15px; line-height: 1.75; margin-bottom: 15px; color: var(--text-soft); }
+.section ul, .section ol { margin: 0 0 16px 22px; }
+.section li { font-size: 15px; line-height: 1.7; margin-bottom: 7px; color: var(--text-soft); }
+.section ul li::marker { color: var(--blue); }
+.section ol li::marker { color: var(--blue); font-weight: 600; }
+.section strong { color: var(--text); font-weight: 700; }
+.section em { color: var(--blue-bright); font-style: normal; font-weight: 500; }
+code:not(pre code) { font-family: var(--font-mono); font-size: 0.86em; background: rgba(42,147,193,0.12); border: 1px solid rgba(42,147,193,0.2); color: var(--blue-bright); padding: 1px 6px; border-radius: 5px; }
+
+/* CALLOUTS */
+.callout { position: relative; display: flex; gap: 13px; border-radius: var(--radius); padding: 15px 17px; margin: 22px 0; font-size: 14px; line-height: 1.65; border: 1px solid var(--border); background: var(--card-bg); }
+.callout::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; }
+.callout-icon { width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; }
+.callout-body { flex: 1; }
+.callout-title { font-family: var(--font-head); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+.callout-body p { font-size: 13.5px; margin: 0; color: var(--text-soft); }
+.callout-body p + p { margin-top: 7px; }
+.callout.note { background: rgba(42,147,193,0.07); border-color: rgba(42,147,193,0.22); }
+.callout.note::before { background: var(--blue); }
+.callout.note .callout-title { color: var(--blue-light); }
+.callout.note .callout-icon { color: var(--blue); }
+.callout.tip { background: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.20); }
+.callout.tip::before { background: var(--green); }
+.callout.tip .callout-title { color: var(--green-soft); }
+.callout.tip .callout-icon { color: var(--green); }
+.callout.warning { background: rgba(241,66,11,0.06); border-color: rgba(241,66,11,0.22); }
+.callout.warning::before { background: var(--orange); }
+.callout.warning .callout-title { color: var(--orange-soft); }
+.callout.warning .callout-icon { color: var(--orange); }
+.callout.pro-tip { background: rgba(234,179,8,0.06); border-color: rgba(234,179,8,0.20); }
+.callout.pro-tip::before { background: var(--amber); }
+.callout.pro-tip .callout-title { color: var(--amber-soft); }
+.callout.pro-tip .callout-icon { color: var(--amber); }
+
+/* STEPS */
+.steps { margin: 22px 0; position: relative; }
+.steps::before { content: ''; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: linear-gradient(var(--border-blue), transparent); }
+.step { display: flex; gap: 16px; margin-bottom: 20px; position: relative; }
+.step:last-child { margin-bottom: 0; }
+.step-num { width: 36px; height: 36px; flex-shrink: 0; z-index: 1; font-family: var(--font-head); font-weight: 600; font-size: 16px; background: rgba(42,147,193,0.14); border: 1px solid var(--border-blue); color: var(--blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px var(--bg); }
+.step-content { flex: 1; padding-top: 4px; }
+.step-title { font-family: var(--font-body); font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 3px; }
+.step-desc { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+/* UI FRAME */
+.ui-frame { margin: 26px 0; border-radius: var(--radius-lg); background: var(--frame-bg); border: 1px solid var(--border-light); box-shadow: var(--shadow-card), 0 0 40px rgba(42,147,193,0.07); overflow: hidden; }
+.ui-frame-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,0.025); border-bottom: 1px solid var(--border); }
+.ui-frame-dots { display: flex; gap: 6px; }
+.ui-frame-dots span { width: 11px; height: 11px; border-radius: 50%; display: block; }
+.ui-frame-dots span:nth-child(1) { background: #ff5f57; }
+.ui-frame-dots span:nth-child(2) { background: #febc2e; }
+.ui-frame-dots span:nth-child(3) { background: #28c840; }
+.ui-frame-url { flex: 1; margin-left: 6px; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 6px; padding: 4px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ui-frame-url .lock { color: var(--green); margin-right: 6px; }
+.ui-frame-body { position: relative; line-height: 0; }
+.ui-frame-body img, .ui-frame-body svg { width: 100%; display: block; }
+.ui-frame-body.placeholder { line-height: 1.5; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 40px 20px; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0 12px, transparent 12px 24px), var(--frame-bg); color: var(--text-faint); }
+.ui-frame-body.placeholder svg { width: 40px; height: 40px; opacity: 0.5; color: var(--blue); }
+.ui-frame-body.placeholder .ph-text { font-size: 13px; color: var(--text-dim); }
+.ui-frame-body.placeholder .ph-hint { font-size: 11.5px; color: var(--text-faint); font-family: var(--font-mono); }
+.ui-frame-body.coming { line-height: 1.5; min-height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 48px 24px; text-align: center;
+  background:
+    radial-gradient(600px 240px at 50% -10%, rgba(42,147,193,0.10), transparent 60%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.012) 0 14px, transparent 14px 28px),
+    var(--frame-bg); }
+.ui-frame-body.coming .coming-badge { font-family: var(--font-head); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue-bright); background: rgba(42,147,193,0.12); border: 1px solid var(--border-blue); border-radius: 999px; padding: 4px 14px; }
+.ui-frame-body.coming svg { width: 44px; height: 44px; opacity: 0.55; color: var(--blue); }
+.ui-frame-body.coming .coming-text { font-size: 13.5px; color: var(--text-dim); max-width: 360px; }
+.figcaption { font-size: 12px; color: var(--text-dim); padding: 9px 14px; background: rgba(255,255,255,0.018); border-top: 1px solid var(--border); display: flex; align-items: center; gap: 7px; }
+.fig-label { font-family: var(--font-head); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); background: rgba(42,147,193,0.12); padding: 2px 8px; border-radius: 4px; }
+
+/* KBD */
+kbd, .kbd { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--text); background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); border: 1px solid var(--border-light); border-bottom-width: 2px; border-radius: 6px; padding: 2px 8px; display: inline-block; line-height: 1.5; box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
+.kbd-combo { display: inline-flex; align-items: center; gap: 5px; }
+.kbd-combo .plus { color: var(--text-faint); font-size: 11px; }
+
+/* TABLES */
+.table-wrap { margin: 22px 0; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead th { font-family: var(--font-head); font-weight: 600; text-align: left; padding: 12px 16px; background: rgba(42,147,193,0.07); color: var(--blue-light); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid var(--border-blue); white-space: nowrap; }
+tbody td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-soft); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:nth-child(even) td { background: rgba(255,255,255,0.012); }
+tbody tr:hover td { background: rgba(42,147,193,0.04); }
+
+/* CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 22px 0; }
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+.card:hover { transform: translateY(-2px); border-color: var(--border-blue); box-shadow: var(--glow-blue); }
+.card-icon { width: 30px; height: 30px; margin-bottom: 11px; color: var(--blue); }
+.card-title { font-family: var(--font-head); font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 5px; }
+.card-desc { font-size: 13px; color: var(--text-dim); line-height: 1.55; }
+
+/* CHECKLIST */
+.checklist { margin: 18px 0; }
+.checklist-item { display: flex; gap: 11px; padding: 9px 0; font-size: 14px; align-items: flex-start; color: var(--text-soft); border-bottom: 1px solid var(--border); }
+.checklist-item:last-child { border-bottom: none; }
+.check-box { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; border: 1.5px solid var(--border-blue); border-radius: 5px; display: flex; align-items: center; justify-content: color: var(--blue); background: rgba(42,147,193,0.06); }
+
+/* PROMPT CARD */
+.prompt-card { background: var(--card-bg-solid); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: var(--radius); padding: 15px 17px; margin: 18px 0; }
+.prompt-label { font-family: var(--font-head); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 8px; }
+.prompt-text { font-family: var(--font-mono); font-size: 13px; color: var(--text); line-height: 1.65; white-space: pre-wrap; }
+
+/* SUBTAB PILLS */
+.subtab-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.subtab-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-head); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--blue-light); background: rgba(42,147,193,0.10); border: 1px solid rgba(42,147,193,0.25); padding: 4px 12px; border-radius: 20px; }
+
+/* ICON BASE */
+.icon, .eyebrow-icon, .callout-icon, .card-icon, .nav-group-icon { color: var(--blue); }
+svg use { stroke: currentColor; }
+
+/* RESPONSIVE */
+@media (max-width: 1180px) { }
+@media (max-width: 920px) {
+  :root { --sidebar-w: 280px; }
+  .hamburger { display: inline-flex; align-items: center; }
+  .sidebar { position: fixed; top: var(--topbar-h); left: 0; z-index: 95; transform: translateX(-100%); transition: transform 0.28s var(--ease); box-shadow: 8px 0 32px rgba(0,0,0,0.5); }
+  .sidebar.open { transform: translateX(0); }
+  .content { padding: 28px 24px 80px; }
+}
+@media (max-width: 560px) {
+  h1, .h1 { font-size: 30px; }
+  h2, .h2 { font-size: 22px; }
+  .topbar-search, .topbar-version { display: none; }
+  .content { padding: 22px 16px 64px; }
+  .wordmark { font-size: 16px; }
+  .cards { grid-template-columns: 1fr; }
+  .guide-hero { height: 280px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; } }
+.text-blue { color: var(--blue-light); }
+.text-dim { color: var(--text-dim); }
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }
+
+  /* === LIGHT THEME (data-theme="light") === */
+  [data-theme="light"] {
+    --bg:            #e8eef4;
+    --bg-2:          #edf2f7;
+    --sidebar-bg:    #e2e8f0;
+    --topbar-bg:     #edf2f7;
+    --card-bg:       rgba(237,242,247,0.85);
+    --card-bg-solid: #edf2f7;
+    --frame-bg:      #e8eef4;
+    --border:        rgba(42,80,120,0.12);
+    --border-light:  rgba(42,80,120,0.18);
+    --border-blue:   rgba(42,147,193,0.4);
+    --text:          #1a1a2e;
+    --text-soft:     #2d3748;
+    --text-dim:      #4a5568;
+    --text-faint:    #5a6b7d;
+    --heading:       #1a1a2e;
+    --shadow-card:   0 4px 16px rgba(30,60,90,0.08), 0 1px 3px rgba(42,147,193,0.06);
+    --glow-blue:     0 0 12px rgba(42,147,193,0.12);
+  }
+  [data-theme="light"] body {
+    background: var(--bg) !important;
+    background-image:
+      radial-gradient(900px 500px at 78% -8%, rgba(42,147,193,0.06), transparent 60%),
+      radial-gradient(700px 500px at -5% 105%, rgba(42,147,193,0.04), transparent 55%) !important;
+    color: var(--text);
+  }
+  [data-theme="light"] .topbar {
+    background: rgba(237,242,247,0.95) !important;
+    border-bottom-color: rgba(42,80,120,0.12);
+  }
+  [data-theme="light"] .sidebar {
+    background: var(--sidebar-bg) !important;
+    border-right-color: rgba(42,80,120,0.12);
+  }
+  [data-theme="light"] .wordmark .wm-white { color: #1a1a2e; }
+  [data-theme="light"] .topbar-guide-label { color: #5a6b7d; }
+  [data-theme="light"] .topbar-search input { background: rgba(255,255,255,0.8); color: #1a1a2e; border-color: rgba(42,80,120,0.15); }
+  [data-theme="light"] .topbar-search input::placeholder { color: #5a6b7d; }
+  [data-theme="light"] .topbar-tag { background: rgba(42,147,193,0.1); color: var(--blue); border-color: rgba(42,147,193,0.3); }
+  [data-theme="light"] .topbar-version { color: #4a5568; }
+  [data-theme="light"] .nav-group-header { color: #4a5568; }
+  [data-theme="light"] .nav-group-header:hover { background: rgba(42,147,193,0.08); color: #1a1a2e; }
+  [data-theme="light"] .nav-item { color: #4a5568; }
+  [data-theme="light"] .nav-item:hover { background: rgba(42,147,193,0.08); color: #1a1a2e; }
+  [data-theme="light"] .nav-item.active { background: rgba(42,147,193,0.12); color: #2a93c1; }
+  [data-theme="light"] .content-card,
+  [data-theme="light"] .card,
+  [data-theme="light"] .section-card { background: var(--card-bg); border-color: var(--border); }
+  [data-theme="light"] code,
+  [data-theme="light"] pre { background: rgba(42,80,120,0.06); color: #1a1a2e; border-color: rgba(42,80,120,0.12); }
+  [data-theme="light"] .hero-section { background: linear-gradient(180deg, #e2e8f0 0%, #e8eef4 100%); }
+  [data-theme="light"] *::-webkit-scrollbar-thumb { background: rgba(42,80,120,0.2); }
+  [data-theme="light"] .toc-link { color: #5a6b7d; }
+  [data-theme="light"] .toc-link:hover,
+  [data-theme="light"] .toc-link.active { color: #2a93c1; }
+  [data-theme="light"] .divider { border-color: rgba(42,80,120,0.12); }
+  [data-theme="light"] .btn-outline { border-color: rgba(42,80,120,0.25); color: #4a5568; }
+  [data-theme="light"] .btn-outline:hover { background: rgba(42,147,193,0.08); }
+  [data-theme="light"] a { color: var(--blue-deep, #1d6f95); }
+  [data-theme="light"] a:hover { color: var(--blue, #2a93c1); }
+
+</style>
+</head>
+<body>
+
+<!-- ===== INLINE SVG SPRITE ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><defs>
+<symbol id="ic-lets-talk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h11a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8l-4 3z"/><path d="M19 9l.7 1.6L21.4 11l-1.7.4L19 13l-.7-1.6L16.6 11l1.7-.4z"/></symbol>
+<symbol id="ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-4 4V6a2 2 0 0 1 2-2z"/><path d="M8 9h8M8 12h5"/></symbol>
+<symbol id="ic-teams" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19v-1a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1"/><path d="M15 14h1a4 4 0 0 1 4 4v1"/></symbol>
+<symbol id="ic-constitution" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 15h6M10 18h4"/></symbol>
+<symbol id="ic-tasks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9l1.5 1.5L12 8"/><path d="M8 15l1.5 1.5L12 14"/><path d="M15 9h2M15 15h2"/></symbol>
+<symbol id="ic-deployments" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 1 5 4 5 8l-2 4H9l-2-4c0-4 2-7 5-8z"/><circle cx="12" cy="9" r="1.6"/><path d="M9 15l-2 4 3-1M15 15l2 4-3-1"/></symbol>
+<symbol id="ic-todo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l1.5 1.5L8 5"/><path d="M4 12l1.5 1.5L8 10"/><path d="M4 18l1.5 1.5L8 16"/><path d="M11 6h9M11 12h9M11 18h6"/></symbol>
+<symbol id="ic-agents" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="12" cy="18" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M12 7.2v4.3M12 11.5h-6v4.3M12 11.5h6v4.3M12 11.5v4.3"/></symbol>
+<symbol id="ic-roster" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="M6.5 15a2.8 2.8 0 0 1 5 0"/><path d="M14 9h4M14 12.5h4M14 16h2.5"/></symbol>
+<symbol id="ic-hub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.6"/><circle cx="12" cy="20" r="1.6"/><circle cx="4.5" cy="8" r="1.6"/><circle cx="19.5" cy="8" r="1.6"/><circle cx="4.5" cy="16" r="1.6"/><circle cx="19.5" cy="16" r="1.6"/><path d="M12 9V5.6M12 15v3.4M9.6 10.6L5.7 8.6M14.4 10.6l3.9-2M9.6 13.4l-3.9 2M14.4 13.4l3.9 2"/></symbol>
+<symbol id="ic-skills" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H5z"/><path d="M12 8l-2 3.5h2.4L11 15l4-4h-2.4z"/></symbol>
+<symbol id="ic-files" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="ic-payments" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 14h3"/></symbol>
+<symbol id="ic-clients" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17.5" cy="9.5" r="2.2"/><path d="M16 19a4 4 0 0 1 6-1.5"/></symbol>
+<symbol id="ic-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4L5.3 5.3"/></symbol>
+<symbol id="ic-refer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M4 13h16M12 9v11"/><path d="M12 9c-1.5-3-5-3-5-1s3.5 1 5 1zM12 9c1.5-3 5-3 5-1s-3.5 1-5 1z"/></symbol>
+<symbol id="ic-about" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="0.6" fill="currentColor"/></symbol>
+<symbol id="ic-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="0.7" fill="currentColor"/></symbol>
+<symbol id="ic-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+<symbol id="ic-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.7" fill="currentColor"/></symbol>
+<symbol id="ic-pro-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5.5L20 9.3l-4 4 1 6-5-2.8L7 19.3l1-6-4-4 5.5-.8z"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+<symbol id="ic-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="ic-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="ic-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L7 20"/></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+</defs></svg>
+
+<!-- ===== TOP BAR ===== -->
+<header class="topbar">
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+    <svg><use href="#ic-menu"/></svg>
+  </button>
+  <a class="brand-lockup" href="#welcome">
+    <svg class="hex" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="15,2 26,8.5 26,21.5 15,28 4,21.5 4,8.5" stroke-linejoin="round"/><polygon points="15,7 22,11 22,19 15,23 8,19 8,11" opacity="0.5"/></svg>
+    <span class="wordmark"><span class="wm-blue">PUREBR</span><span class="wm-orange">AI</span><span class="wm-blue">N</span><span class="wm-white">.ai</span></span>
+  </a>
+  <div class="topbar-divider"></div>
+  <span class="topbar-guide-label">User Guide</span>
+  <div class="topbar-search">
+    <svg class="search-icon"><use href="#ic-search"/></svg>
+    <input type="search" id="guideSearch" placeholder="Filter sections..." autocomplete="off">
+  </div>
+  <div class="topbar-right">
+    <button id="theme-toggle" class="icon-btn" onclick="window.toggleTheme&&toggleTheme()" title="Toggle light/dark theme" aria-label="Toggle theme" style="width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text-dim);cursor:pointer;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <span class="topbar-tag">Command Center</span>
+    <span class="topbar-version">v2.0</span>
+  </div>
+</header>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <nav class="sidebar" id="sidebar">
+
+    <!-- GETTING STARTED -->
+    <div class="nav-group" id="grp-start">
+      <div class="nav-group-header" onclick="toggleGroup('grp-start')">
+        <svg class="nav-group-icon"><use href="#ic-star"/></svg>
+        <span class="nav-group-title">Getting Started</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#welcome">Welcome</a>
+        <a class="nav-item" href="#getting-started">Logging In</a>
+        <a class="nav-item" href="#reset">Passwords</a>
+        <a class="nav-item" href="#daily-brief">Home &amp; Daily Brief</a>
+      </div>
+    </div>
+
+    <!-- TAB-BY-TAB TOUR -->
+    <div class="nav-group" id="grp-tour">
+      <div class="nav-group-header" onclick="toggleGroup('grp-tour')">
+        <svg class="nav-group-icon"><use href="#ic-roster"/></svg>
+        <span class="nav-group-title">Tab-by-Tab Tour</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#tour">Overview</a>
+        <a class="nav-item" href="#tab-home">Home</a>
+        <a class="nav-item" href="#tab-chat">Chat</a>
+        <a class="nav-item" href="#tab-tasks">Tasks</a>
+        <a class="nav-item" href="#tab-team">Team</a>
+        <a class="nav-item" href="#tab-projects">Projects</a>
+        <a class="nav-item" href="#tab-meetings">Meetings</a>
+        <a class="nav-item" href="#tab-org">Organisation</a>
+        <a class="nav-item" href="#tab-roadmap">Roadmap &amp; Voting</a>
+        <a class="nav-item" href="#tab-feedback">Feedback</a>
+        <a class="nav-item" href="#tab-email">Email</a>
+        <a class="nav-item" href="#tab-ccguide">CC Guide</a>
+        <a class="nav-item" href="#tab-brand">Brand</a>
+      </div>
+    </div>
+
+    <!-- WORKING IN CHAT -->
+    <div class="nav-group" id="grp-chat">
+      <div class="nav-group-header" onclick="toggleGroup('grp-chat')">
+        <svg class="nav-group-icon"><use href="#ic-chat"/></svg>
+        <span class="nav-group-title">Working in Chat</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#chat">Overview</a>
+        <a class="nav-item" href="#chat-toolkit">Messaging Toolkit</a>
+        <a class="nav-item" href="#chat-tasks">Common Chat Tasks</a>
+      </div>
+    </div>
+
+    <!-- MEETINGS TO TASKS -->
+    <div class="nav-group" id="grp-pipeline">
+      <div class="nav-group-header" onclick="toggleGroup('grp-pipeline')">
+        <svg class="nav-group-icon"><use href="#ic-deployments"/></svg>
+        <span class="nav-group-title">Meetings &rarr; Tasks</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#meetings">How It Works</a>
+        <a class="nav-item" href="#pipeline-req">Requirements</a>
+        <a class="nav-item" href="#pipeline-review">Reviewing Tasks</a>
+      </div>
+    </div>
+
+    <!-- YOUR AI PARTNER -->
+    <div class="nav-group" id="grp-ai">
+      <div class="nav-group-header" onclick="toggleGroup('grp-ai')">
+        <svg class="nav-group-icon"><use href="#ic-agents"/></svg>
+        <span class="nav-group-title">Your AI Partner</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#ai-partner">What It Is</a>
+        <a class="nav-item" href="#ai-shows">How It Shows Up</a>
+        <a class="nav-item" href="#ai-mention">Mention-First</a>
+        <a class="nav-item" href="#ai-channel">Per-Channel AI</a>
+      </div>
+    </div>
+
+    <!-- GETTING HELP -->
+    <div class="nav-group" id="grp-help">
+      <div class="nav-group-header" onclick="toggleGroup('grp-help')">
+        <svg class="nav-group-icon"><use href="#ic-about"/></svg>
+        <span class="nav-group-title">Getting Help</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#help">CC Guide</a>
+        <a class="nav-item" href="#help-feedback">Feedback</a>
+        <a class="nav-item" href="#help-support">Support</a>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="nav-group" id="grp-notify">
+      <div class="nav-group-header" onclick="toggleGroup('grp-notify')">
+        <svg class="nav-group-icon"><use href="#ic-hub"/></svg>
+        <span class="nav-group-title">Notifications</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#notifications">Overview</a>
+      </div>
+    </div>
+
+    <!-- WHAT CHANGED -->
+    <div class="nav-group" id="grp-changed">
+      <div class="nav-group-header" onclick="toggleGroup('grp-changed')">
+        <svg class="nav-group-icon"><use href="#ic-constitution"/></svg>
+        <span class="nav-group-title">What Changed</span>
+        <svg class="nav-group-chevron"><use href="#ic-chevron"/></svg>
+      </div>
+      <div class="nav-group-items">
+        <a class="nav-item" href="#whats-changed">From the Old Guide</a>
+      </div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="sidebar-progress-label"><span>Guide Progress</span><b id="progressPct">0%</b></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+  </nav>
+
+  <!-- ===== CONTENT ===== -->
+  <main class="content" id="mainContent">
+    <div class="content-inner">
+
+      <!-- HERO -->
+      <div class="guide-hero" role="img" aria-label="PureBrain Command Center User Guide v2.0">
+        <div class="hero-inner">
+          <svg class="hero-hex" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4"><polygon points="15,2 26,8.5 26,21.5 15,28 4,21.5 4,8.5" stroke-linejoin="round"/><polygon points="15,7 22,11 22,19 15,23 8,19 8,11" opacity="0.5"/></svg>
+          <div class="hero-kicker">PureBrain &middot; for cc.purebrain.ai</div>
+          <h1 class="hero-title"><span class="accent">Command Center</span> User Guide</h1>
+          <p class="hero-sub">Your guide to working inside the PureBrain Command Center &mdash; the client app at cc.purebrain.ai. The hybrid human + AI workspace where your team's people and their AI partners get things done, side by side. (Not the Mission Control portal.)</p>
+          <span class="hero-version">VERSION 2.0</span>
+        </div>
+      </div>
+
+      <!-- =========================================================
+           1. WELCOME
+           ========================================================= -->
+      <section id="welcome" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>Welcome to the Command Center</h1>
+        <p class="lead">The <strong>Command Center</strong> is a shared workspace where your team's people and their AI partners work side by side. It lives in your web browser at <strong>cc.purebrain.ai</strong> &mdash; there is nothing to install.</p>
+        <p>It is your team's hub for the everyday work of getting things done:</p>
+        <div class="cards">
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-chat"/></svg>
+            <div class="card-title">Talk</div>
+            <div class="card-desc">Message teammates and AI partners in real-time Chat &mdash; channels, DMs, and group chats.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-tasks"/></svg>
+            <div class="card-title">Track</div>
+            <div class="card-desc">See what you owe and what's owed to you in Tasks &mdash; created by hand or generated from meetings.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-teams"/></svg>
+            <div class="card-title">Run Projects</div>
+            <div class="card-desc">Coordinate work with your team in the Team and Projects tabs.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-deployments"/></svg>
+            <div class="card-title">Meetings to Action</div>
+            <div class="card-desc">Recorded meetings become AI-summarized action items and tasks &mdash; automatically.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-roster"/></svg>
+            <div class="card-title">See Your Org</div>
+            <div class="card-desc">Your people, departments, and AI agents &mdash; all in one place.</div>
+          </div>
+          <div class="card">
+            <svg class="card-icon"><use href="#ic-agents"/></svg>
+            <div class="card-title">Your AI Partner</div>
+            <div class="card-desc">Every person can have an AI partner that works in the same tools you do.</div>
+          </div>
+        </div>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">The defining idea</div>
+            <p>Every person on your team can have an <strong>AI partner</strong> that works in the same tools you do. Your AI partner shows up in chat, helps with tasks, and picks up work you delegate &mdash; while you stay in control.</p>
+          </div>
+        </div>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Home</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Command Center home page (your personalized Daily Brief) as it appears right after you log in.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Command Center home page (Daily Brief) after login.</figcaption>
+        </figure>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           2. GETTING STARTED
+           ========================================================= -->
+      <section id="getting-started" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>Logging In</h1>
+        <p class="lead">The Command Center uses a standard <strong>email and password</strong> login. There's nothing to install &mdash; just open your browser.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Go to cc.purebrain.ai</div>
+              <div class="step-desc">Open the Command Center in a modern browser (Chrome, Edge, or Firefox recommended).</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Enter your email address</div>
+              <div class="step-desc">Use the email address your administrator used to add you to the organization.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Enter your password</div>
+              <div class="step-desc">Type the password for your account.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Select Log in</div>
+              <div class="step-desc">You land on your <strong>Home</strong> page, which shows your personalized Daily Brief.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">New here?</div>
+            <p>Your account is created by an administrator when you're added to an <strong>Organisation</strong>. If you don't have login details yet, ask your team's administrator to add you.</p>
+          </div>
+        </div>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Log in</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Command Center login screen &mdash; email and password fields with the "Forgot password?" link.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Command Center login screen.</figcaption>
+        </figure>
+
+        <h2 id="reset">Resetting a forgotten password</h2>
+        <p>If you can't remember your password, you can reset it yourself:</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Select "Forgot password?"</div>
+              <div class="step-desc">On the login screen, choose the Forgot password link.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Enter your email and submit</div>
+              <div class="step-desc">Type the email address on your account.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Check your inbox</div>
+              <div class="step-desc">Look for a message from <code>noreply@puretechnology.nyc</code> with a reset link.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Set a new password</div>
+              <div class="step-desc">Open the link and choose a new password (<strong>minimum 8 characters</strong>), then log in with it.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout tip">
+          <svg class="callout-icon"><use href="#ic-tip"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Good to know</div>
+            <p>The reset link is <strong>single-use</strong> and <strong>expires 30 minutes</strong> after it's sent. If it expires, just request a new one.</p>
+            <p>For your security, the on-screen confirmation looks the same whether or not an account exists for that email &mdash; so the form can't be used to discover who has an account.</p>
+          </div>
+        </div>
+
+        <h2 id="change-pw">Changing your password</h2>
+        <p>To change your password while logged in:</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Open Settings</div>
+              <div class="step-desc">Then choose <strong>Change Password</strong>.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Enter your current, then new password</div>
+              <div class="step-desc">Type your current password, then your new password twice, and save.</div>
+            </div>
+          </div>
+        </div>
+        <p>You'll be asked for your current password every time &mdash; even administrators &mdash; so a change is always deliberate.</p>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           HOME / DAILY BRIEF
+           ========================================================= -->
+      <section id="daily-brief" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-star"/></svg> Getting Started
+        </div>
+        <h1>Your First Look: Home &amp; the Daily Brief</h1>
+        <p class="lead">Your <strong>Home</strong> page is built around a personalized <em>AI Daily Brief</em> &mdash; a short, plain-language summary of your day.</p>
+        <p>From Home you see, at a glance:</p>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Your Daily Brief</div>
+            <div class="card-desc">A greeting and a synthesis of what's on your plate, with quick-action shortcuts.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Your Tasks</div>
+            <div class="card-desc">What's assigned to you and what's a priority.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Your Agenda</div>
+            <div class="card-desc">Meetings and events for the day.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Key Metrics (KPIs)</div>
+            <div class="card-desc">A snapshot of your work and your team's activity.</div>
+          </div>
+        </div>
+        <p>Read your brief, then use the tab navigation to explore the rest of the Command Center.</p>
+
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Home</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Home page showing the Daily Brief card, your tasks, and your agenda.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Home page with the Daily Brief card, tasks, and agenda.</figcaption>
+        </figure>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           3. TAB-BY-TAB TOUR
+           ========================================================= -->
+      <section id="tour" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-roster"/></svg> Tab-by-Tab Tour
+        </div>
+        <h1>Tab-by-Tab Tour</h1>
+        <p class="lead">The Command Center is organized into tabs. Here's what each is for and the key things you can do. The richest areas &mdash; <strong>Chat</strong> and <strong>Meetings</strong> &mdash; have their own chapters after this tour.</p>
+
+        <h2 id="tab-home">Home</h2>
+        <p><strong>What it's for:</strong> Your personal starting point each day.</p>
+        <ul>
+          <li>Read your <strong>AI Daily Brief</strong>.</li>
+          <li>See your tasks, agenda, and KPI snapshot.</li>
+          <li>Use quick actions (for example, create a task or jump into chat).</li>
+        </ul>
+
+        <h2 id="tab-chat">Chat</h2>
+        <p><strong>What it's for:</strong> Real-time messaging with teammates and AI partners.</p>
+        <ul>
+          <li>Message in <strong>channels</strong>, <strong>direct messages (DMs)</strong>, and <strong>group chats</strong>.</li>
+          <li><strong>Pin</strong> important messages, tag messages as <strong>IMPORTANT</strong>, react with emoji, and <strong>search</strong> your history.</li>
+          <li><strong>Schedule</strong> messages to send later, send <strong>voice</strong> messages, and paste screenshots.</li>
+          <li>Browse all channels in the <strong>channel directory</strong>, and <strong>favorite</strong> or <strong>mute</strong> channels.</li>
+        </ul>
+        <p>See <a href="#chat">Working in Chat</a> for the full feature set.</p>
+
+        <h2 id="tab-tasks">Tasks</h2>
+        <p><strong>What it's for:</strong> Tracking your work &mdash; both what you create and what comes out of meetings.</p>
+        <ul>
+          <li>View <strong>My Tasks</strong> &mdash; tasks assigned to you, whether created manually or generated from a meeting.</li>
+          <li>Switch between <strong>list</strong> and <strong>grid</strong> views.</li>
+          <li><strong>Filter</strong> by assignee, source, meeting, or date.</li>
+          <li>See each task's <strong>created date</strong> and its <strong>assigner</strong> (who gave it to you).</li>
+          <li>Set <strong>status</strong> (for example, to-do, in progress, in review, done), <strong>priority</strong>, and <strong>assignee</strong>.</li>
+          <li>Add <strong>comments</strong> to a task to discuss it in place.</li>
+        </ul>
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Tasks</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Tasks tab in grid view, showing the filter controls (assignee, source, meeting, date).</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Tasks tab in grid view with filters.</figcaption>
+        </figure>
+
+        <h2 id="tab-team">Team</h2>
+        <p><strong>What it's for:</strong> A collaborative workspace for a specific team project.</p>
+        <ul>
+          <li><strong>Create a team project</strong> and give it a name and description.</li>
+          <li><strong>Add members</strong> &mdash; when you add a person, their AI partner is added automatically.</li>
+          <li><strong>Assign tasks</strong> to members within the project.</li>
+          <li>Switch between a <strong>Board view</strong> and a <strong>Map view</strong> of the project's work.</li>
+          <li><strong>Discuss</strong> the project and individual tasks in the built-in discussion area.</li>
+        </ul>
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Team vs. Projects</div>
+            <p><em>Team</em> is a focused workspace you spin up for a specific effort. <em>Projects</em> (next) is the broader, war-room view of project management across your organization.</p>
+          </div>
+        </div>
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Team</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Team tab showing a project in Board view.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Team tab showing a project in Board view.</figcaption>
+        </figure>
+
+        <h2 id="tab-projects">Projects</h2>
+        <p><strong>What it's for:</strong> War-room style project management across the organization.</p>
+        <ul>
+          <li>See projects as <strong>cards</strong> with their status and progress.</li>
+          <li>View the <strong>organogram</strong> (the people and structure behind a project).</li>
+          <li>Track live activity with the <strong>executor pulse</strong>.</li>
+        </ul>
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Projects</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Projects tab with project cards and the organogram.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Projects tab with project cards and the organogram.</figcaption>
+        </figure>
+
+        <h2 id="tab-meetings">Meetings</h2>
+        <p><strong>What it's for:</strong> Turning recorded meetings into action items and tasks &mdash; automatically.</p>
+        <ul>
+          <li>See upcoming and past meetings, with <strong>calendar integration</strong>.</li>
+          <li><strong>RSVP</strong> to meetings, and <strong>edit</strong> or <strong>delete</strong> meetings you organize.</li>
+          <li>Get <strong>reminders</strong> before a meeting starts.</li>
+          <li>After a meeting that was <strong>cloud-recorded with transcription on</strong>, the Command Center analyzes the transcript and creates <strong>action items and tasks</strong> for you.</li>
+        </ul>
+        <p>See <a href="#meetings">Meetings to Tasks: the pipeline</a> for how this works.</p>
+
+        <h2 id="tab-org">Organisation</h2>
+        <p><strong>What it's for:</strong> Seeing and managing your organization &mdash; its people, structure, and AI agents.</p>
+        <ul>
+          <li>Browse the <strong>org chart</strong>, <strong>departments</strong>, and <strong>divisions</strong>.</li>
+          <li><strong>Manage members</strong> &mdash; add or update people (available to users with a <strong>Manager</strong> role or above).</li>
+          <li>Set profile <strong>headshots</strong>, which then appear consistently across Chat, Tasks, and Team.</li>
+          <li><strong>Link or create AI agents</strong> and map them to the people they partner with.</li>
+        </ul>
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Organisation</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Organisation tab with the org chart and member list.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Organisation tab with the org chart and member list.</figcaption>
+        </figure>
+
+        <h2 id="tab-roadmap">Roadmap + Voting</h2>
+        <p><strong>What it's for:</strong> Seeing what's planned and having a say in priorities.</p>
+        <ul>
+          <li>View <strong>initiatives</strong> on a timeline.</li>
+          <li>Take part in <strong>ranked ballot voting</strong> to help prioritize what the team builds next.</li>
+          <li>Select your ranked choices, then <strong>Submit</strong> your vote (you can update it while the ballot is open).</li>
+          <li>When a ballot closes, see the <strong>final results</strong> and the winning initiative.</li>
+        </ul>
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Roadmap</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">The Roadmap timeline with an open voting ballot.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> Roadmap timeline with an open voting ballot.</figcaption>
+        </figure>
+
+        <h2 id="tab-feedback">Feedback</h2>
+        <p><strong>What it's for:</strong> Telling the team about bugs, requests, and ideas &mdash; and tracking what happens next.</p>
+        <ul>
+          <li>Submit a <strong>bug report</strong>, a <strong>feature request</strong>, a <strong>question</strong>, or a <strong>suggestion</strong> (with an "Other" free-text option).</li>
+          <li>Follow your submission through its <strong>lifecycle</strong> as it's reviewed and worked on.</li>
+          <li><strong>Validate</strong> the outcome as the original reporter when it's resolved.</li>
+        </ul>
+        <p>See <a href="#help">Getting help</a> for when to use Feedback versus the CC Guide.</p>
+
+        <h2 id="tab-email">Email</h2>
+        <p><strong>What it's for:</strong> Reading your work email without leaving the Command Center.</p>
+        <ul>
+          <li>Connect your <strong>Outlook</strong> and/or <strong>Gmail</strong> inbox (each user connects their own account).</li>
+          <li>Read your mail inside the Command Center's Email tab, filtered by account and folder.</li>
+        </ul>
+
+        <h2 id="tab-ccguide">CC Guide</h2>
+        <p><strong>What it's for:</strong> An in-app AI assistant for the Command Center itself.</p>
+        <ul>
+          <li>Open it from the <strong>draggable bubble</strong> in the bottom-right corner of any page.</li>
+          <li>Ask questions about how the Command Center works.</li>
+          <li>Ask it to <strong>create a task</strong> or <strong>draft an email</strong> &mdash; it shows you a <strong>preview</strong> first and only acts after you <strong>confirm</strong>.</li>
+        </ul>
+        <p>See <a href="#help">Getting help</a>.</p>
+
+        <h2 id="tab-brand">Brand</h2>
+        <p><strong>What it's for:</strong> A read-only brand style guide (colors, fonts, logo usage) you can reference when creating on-brand materials.</p>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           4. WORKING IN CHAT
+           ========================================================= -->
+      <section id="chat" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-chat"/></svg> Working in Chat
+        </div>
+        <h1>Working in Chat</h1>
+        <p class="lead">Chat is where the Command Center comes alive. This chapter covers how conversations are organized and the full messaging toolkit.</p>
+
+        <h2>Channels, DMs, and group chats</h2>
+        <p>There are three kinds of conversations:</p>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">Channels</div>
+            <div class="card-desc">Ongoing spaces for a team, department, or topic. Anyone in the channel can read and post.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Direct messages (DMs)</div>
+            <div class="card-desc">A private, one-to-one conversation with another person.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Group chats</div>
+            <div class="card-desc">A private conversation among several people you choose.</div>
+          </div>
+        </div>
+        <h4>Finding and organizing channels</h4>
+        <ul>
+          <li>Use the <strong>channel directory</strong> to browse every channel you can join, with its purpose and activity.</li>
+          <li><strong>Favorite</strong> a channel to pin it to the top of your list; <strong>mute</strong> a channel to stop its notifications.</li>
+        </ul>
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">AI partners in group chats</div>
+            <p>When you create a group chat, the AI partners of the members are <strong>added automatically and silently</strong>. They stay quiet until someone <strong>@mentions</strong> them &mdash; then the mentioned AI partner replies. See <a href="#ai-partner">Your AI partner</a>.</p>
+          </div>
+        </div>
+
+        <h2 id="chat-toolkit">The messaging toolkit</h2>
+        <p>Everything you'd expect from modern team chat, plus a few extras:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Pin messages</strong></td><td>Pin <strong>up to 3 messages</strong> per channel so the important stuff stays at the top. (Trying to pin a fourth prompts you to unpin one first.)</td></tr>
+              <tr><td><strong>IMPORTANT tags</strong></td><td>Tag a message as <strong>IMPORTANT</strong>, then filter to show only important messages.</td></tr>
+              <tr><td><strong>Mentions</strong></td><td>@mention a person or an AI partner to get their attention. Use <strong>@all</strong> or <strong>@everyone</strong> to notify the whole channel (including AI partners in it).</td></tr>
+              <tr><td><strong>Voice messages</strong></td><td>Record a voice message and send it; recipients play it inline.</td></tr>
+              <tr><td><strong>Link previews</strong></td><td>Paste a URL and it unfurls into a preview card.</td></tr>
+              <tr><td><strong>Emoji reactions</strong></td><td>React to a message with an emoji.</td></tr>
+              <tr><td><strong>Message search</strong></td><td>Search your chat history to find a past message.</td></tr>
+              <tr><td><strong>Scheduled messages</strong></td><td>Compose a message now and <strong>send it later</strong>; cancel it before it sends.</td></tr>
+              <tr><td><strong>Paste a screenshot</strong></td><td>Paste an image straight into the message box, and attach files (including multiple at once via drag-and-drop).</td></tr>
+              <tr><td><strong>Formatting</strong></td><td>Use <strong>bold</strong>, lists, <code>code</code>, and links to make messages clear.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Chat</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">A chat channel showing pinned messages, an IMPORTANT-tagged message, and a link preview.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> A chat channel showing pinned messages, an IMPORTANT-tagged message, and a link preview.</figcaption>
+        </figure>
+
+        <h2 id="chat-tasks">Common chat tasks</h2>
+        <h4>Pin a message</h4>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Hover over the message</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Choose Pin</div></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">It appears in the pinned area</div><div class="step-desc">Up to 3 at a time. To pin another when three are already pinned, unpin one first.</div></div></div>
+        </div>
+        <h4>Tag a message as IMPORTANT</h4>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Hover over the message</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Choose Mark important</div></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Filter to "Important only"</div><div class="step-desc">See just the important messages in the channel.</div></div></div>
+        </div>
+        <h4>Mention someone or everyone</h4>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Type @ and pick from the list</div><div class="step-desc">Choose a person or an AI partner.</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Use @all or @everyone</div><div class="step-desc">To notify the whole channel.</div></div></div>
+        </div>
+        <h4>Send a voice message</h4>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Choose the record option in the message box</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Record, then send</div><div class="step-desc">Recipients play it inline.</div></div></div>
+        </div>
+        <h4>Schedule a message</h4>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Compose your message</div></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Choose send-later / schedule</div><div class="step-desc">Instead of sending now.</div></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Pick the time</div><div class="step-desc">To change your mind, cancel it before it sends.</div></div></div>
+        </div>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           5. MEETINGS TO TASKS
+           ========================================================= -->
+      <section id="meetings" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-deployments"/></svg> Meetings &rarr; Tasks
+        </div>
+        <h1>Meetings to Tasks: the pipeline</h1>
+        <p class="lead">One of the Command Center's most useful features: a recorded meeting becomes a list of action items and tasks &mdash; without anyone taking notes by hand.</p>
+
+        <h2>How it works</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Hold a recorded meeting</div>
+              <div class="step-desc">A meeting (Zoom or Teams) that is cloud-recorded with transcription on.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">The Command Center fetches the transcript</div>
+              <div class="step-desc">When the recording and transcript are ready.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">An AI analyzes the transcript</div>
+              <div class="step-desc">It pulls out the action items &mdash; what was decided and who owns it.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">Action items become tasks</div>
+              <div class="step-desc">Assigned to the right people, they appear in the <strong>Tasks</strong> tab (and in your Daily Brief).</div>
+            </div>
+          </div>
+        </div>
+        <figure class="ui-frame">
+          <div class="ui-frame-bar">
+            <div class="ui-frame-dots"><span></span><span></span><span></span></div>
+            <div class="ui-frame-url"><span class="lock">&#128274;</span>cc.purebrain.ai &mdash; Meetings</div>
+          </div>
+          <div class="ui-frame-body coming">
+            <span class="coming-badge">Screenshot coming soon</span>
+            <svg><use href="#ic-image"/></svg>
+            <div class="coming-text">A meeting's detail view showing the generated action items and tasks.</div>
+          </div>
+          <figcaption class="figcaption"><span class="fig-label">What it looks like</span> A meeting's detail view showing generated action items / tasks.</figcaption>
+        </figure>
+
+        <h2 id="pipeline-req">What's required</h2>
+        <p>For the pipeline to run, the meeting must be:</p>
+        <ul>
+          <li><strong>Cloud-recorded</strong> (not local-only), and</li>
+          <li>Recorded with <strong>transcription turned on</strong>.</li>
+        </ul>
+        <div class="callout warning">
+          <svg class="callout-icon"><use href="#ic-warning"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">No transcript, no tasks</div>
+            <p>If a meeting isn't cloud-recorded with transcription on, there's no transcript to analyze &mdash; so no tasks are created from it.</p>
+          </div>
+        </div>
+
+        <h2 id="pipeline-review">Reviewing your meeting tasks</h2>
+        <p>After a meeting is processed:</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">Open the Tasks tab</div>
+              <div class="step-desc">Or open the meeting in the <strong>Meetings</strong> tab.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">Filter by the meeting</div>
+              <div class="step-desc">Tasks supports a <strong>meeting</strong> filter to see just that meeting's items.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">Review, comment, or reassign</div>
+              <div class="step-desc">Adjust tasks as needed.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           6. YOUR AI PARTNER
+           ========================================================= -->
+      <section id="ai-partner" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-agents"/></svg> Your AI Partner
+        </div>
+        <h1>Your AI Partner</h1>
+        <p class="lead">Your <strong>AI partner</strong> is an AI agent linked to you inside the organization. It works in the same Command Center you do &mdash; it can join chats, help with tasks, and pick up work you delegate, while you stay in control.</p>
+        <p>AI partners are set up in the <strong>Organisation</strong> tab, where agents are linked to (or created for) the people they partner with.</p>
+
+        <h2 id="ai-shows">How it shows up</h2>
+        <ul>
+          <li><strong>In chat:</strong> Your AI partner appears like any other member. It's added automatically to group chats you're in.</li>
+          <li><strong>Online / available:</strong> When your AI partner is running and available, it shows as <strong>online</strong> (a green indicator).</li>
+        </ul>
+
+        <h2 id="ai-mention">Mention-first behavior</h2>
+        <p>AI partners are <strong>mention-first</strong>: in group chats and channels, they stay quiet until you <strong>@mention</strong> them. When you @mention your AI partner, it responds. This keeps group conversations from getting noisy while still letting you pull your AI partner in the moment you need it.</p>
+
+        <h2 id="ai-channel">Per-channel AI assignment</h2>
+        <p>You can control which AI partners are active in a given channel using the channel's AI settings (the <strong>Manage AIs</strong> option). This lets a channel have exactly the AI help it needs &mdash; no more, no less.</p>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           7. GETTING HELP
+           ========================================================= -->
+      <section id="help" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-about"/></svg> Getting Help
+        </div>
+        <h1>Getting Help</h1>
+        <p class="lead">You have three ways to get unstuck.</p>
+
+        <h2>The CC Guide bubble</h2>
+        <p>For quick, in-context help, use the <strong>CC Guide</strong> &mdash; the draggable assistant bubble in the bottom-right corner of any Command Center page.</p>
+        <ul>
+          <li>Ask it how something works in the Command Center.</li>
+          <li>Ask it to <strong>create a task</strong> or <strong>draft an email</strong> for you &mdash; it shows a <strong>preview</strong> and only acts after you <strong>confirm</strong>.</li>
+        </ul>
+        <p>Use the CC Guide when you have a "how do I&hellip;" question or want a quick action done.</p>
+
+        <h2 id="help-feedback">The Feedback tab</h2>
+        <p>For something that's broken or missing, use the <strong>Feedback</strong> tab:</p>
+        <ul>
+          <li>Report a <strong>bug</strong>, request a <strong>feature</strong>, ask a <strong>question</strong>, or share a <strong>suggestion</strong>.</li>
+          <li>Track your submission through its lifecycle.</li>
+          <li>Validate the outcome when it's resolved.</li>
+        </ul>
+        <p>Use Feedback when you've found a problem or have an idea the team should consider.</p>
+
+        <h2 id="help-support">Support</h2>
+        <p>For issues the CC Guide and Feedback tab can't resolve, reach out to your PureBrain support contact. Your team's administrator can point you to the current support channel for licensed users.</p>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           8. NOTIFICATIONS
+           ========================================================= -->
+      <section id="notifications" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-hub"/></svg> Notifications
+        </div>
+        <h1>Notifications</h1>
+        <p class="lead">The Command Center keeps you informed through more than one channel.</p>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">In-app bell</div>
+            <div class="card-desc">A notification bell inside the Command Center (for example, when a task is assigned to you).</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Browser web push</div>
+            <div class="card-desc">Desktop and mobile browser notifications, so you're alerted even when the Command Center tab isn't open.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Telegram</div>
+            <div class="card-desc">Optional messages to your phone.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Sound</div>
+            <div class="card-desc">An audible alert for new activity.</div>
+          </div>
+        </div>
+      </section>
+      <hr class="divider">
+
+      <!-- =========================================================
+           9. WHAT CHANGED
+           ========================================================= -->
+      <section id="whats-changed" class="section">
+        <div class="section-eyebrow">
+          <svg class="eyebrow-icon"><use href="#ic-constitution"/></svg> What Changed
+        </div>
+        <h1>What Changed from the Old Guide</h1>
+        <p class="lead">This guide replaces the previous user guide, which described a different, older product model. The concepts below are retired &mdash; none exist in today's Command Center.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Old concept</th><th>Why it's gone</th><th>Replaced by</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Bearer Token login</strong> (a single secret key)</td><td>Login is now standard email + password</td><td>Logging In</td></tr>
+              <tr><td><strong>"Mission Control" portal</strong> (Overview/Status/Files/Teams/Commands tabs)</td><td>The interface is now the Command Center with its own tabs</td><td>Tab-by-Tab Tour</td></tr>
+              <tr><td><strong>Terminal tab</strong> (command-line access)</td><td>No Terminal tab exists in the Command Center</td><td>&mdash; (removed)</td></tr>
+              <tr><td><strong>"Teams" tab = terminal command injection</strong></td><td>Not a feature; <strong>Team</strong> now means a collaborative project workspace</td><td>Team tab</td></tr>
+              <tr><td><strong>Portal File Delivery</strong> (a portal file API, "Files" tab)</td><td>No portal file API; files move through Chat attachments/screenshots and Email</td><td>Chat &amp; Email</td></tr>
+              <tr><td><strong>CTX Meter</strong> (context-window percentage)</td><td>Not an end-user concept</td><td>Home / Daily Brief</td></tr>
+              <tr><td><strong>BOOP cycles</strong> (as a user-facing feature)</td><td>Not a user-facing feature</td><td>Meetings &rarr; Tasks &amp; scheduled messages</td></tr>
+              <tr><td><strong>Slash commands</strong> (/research, /draft, /status)</td><td>End users use UI actions and the CC Guide assistant instead</td><td>CC Guide</td></tr>
+              <tr><td><strong>Telegram-first mobile model</strong></td><td>Telegram is now one notification channel among several</td><td>Notifications</td></tr>
+              <tr><td><strong>"Awakening" onboarding conversation</strong></td><td>Users are added to an Organisation by an admin and start using the tabs</td><td>Logging In</td></tr>
+              <tr><td><strong>Agent Roster</strong> of internal specialist names</td><td>Not the user-facing model</td><td>Organisation-linked named AI partners</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout note">
+          <svg class="callout-icon"><use href="#ic-note"/></svg>
+          <div class="callout-body">
+            <div class="callout-title">Terminology</div>
+            <p>This guide standardizes on <strong>"Command Center (CC)"</strong> and retires <strong>"Mission Control."</strong></p>
+          </div>
+        </div>
+        <hr class="divider">
+        <p>Looking for a specific feature? Use the sidebar to jump to any tab, or the <a href="#chat">Working in Chat</a> and <a href="#meetings">Meetings &rarr; Tasks</a> chapters for the deepest coverage.</p>
+      </section>
+
+    </div><!-- /content-inner -->
+  </main>
+</div><!-- /layout -->
+
+<script>
+// ===== SIDEBAR TOGGLE =====
+function toggleGroup(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('show');
+});
+document.getElementById('sidebarBackdrop').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.remove('open');
+  this.classList.remove('show');
+});
+
+// ===== ACTIVE NAV ITEM (intersection observer) =====
+const sections = document.querySelectorAll('.section[id]');
+const navItems = document.querySelectorAll('.nav-item');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector('.nav-item[href="#' + e.target.id + '"]');
+      if (active) {
+        active.classList.add('active');
+        const grp = active.closest('.nav-group');
+        if (grp) grp.classList.remove('collapsed');
+      }
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+
+// ===== SEARCH (simple highlight) =====
+document.getElementById('guideSearch').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  navItems.forEach(n => {
+    if (!q) { n.style.display = ''; return; }
+    n.style.display = n.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+
+// ===== PROGRESS BAR =====
+document.getElementById('mainContent').addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('resize', updateProgress, { passive: true });
+function updateProgress() {
+  const el = document.getElementById('mainContent');
+  const doc = document.documentElement;
+  const innerTotal = el.scrollHeight - el.clientHeight;
+  const winTotal = (doc.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+  let scrolled, total;
+  if (innerTotal > 1) {
+    scrolled = el.scrollTop;
+    total = innerTotal;
+  } else {
+    scrolled = window.scrollY || doc.scrollTop || document.body.scrollTop || 0;
+    total = winTotal;
+  }
+  const pct = total > 0 ? Math.min(100, Math.max(0, Math.round((scrolled / total) * 100))) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+updateProgress();
+</script>
+<script>
+  (function(){
+    var t=localStorage.getItem('theme')||'dark';
+    document.documentElement.setAttribute('data-theme',t);
+    function updateBtn(){
+      var btn=document.getElementById('theme-toggle');
+      if(!btn)return;
+      var isDark=document.documentElement.getAttribute('data-theme')==='dark';
+      btn.innerHTML=isDark
+        ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+        :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      btn.title=isDark?'Switch to light mode':'Switch to dark mode';
+    }
+    window.toggleTheme=function(){
+      var cur=document.documentElement.getAttribute('data-theme');
+      var next=cur==='light'?'dark':'light';
+      document.documentElement.setAttribute('data-theme',next);
+      localStorage.setItem('theme',next);
+      updateBtn();
+    };
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',updateBtn);}else{updateBtn();}
+  })();
+</script>
+</body>
+</html>
